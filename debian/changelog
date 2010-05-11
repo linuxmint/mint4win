@@ -1,0 +1,376 @@
+wubi (10.04) UNRELEASED; urgency=low
+
+  [ Agostino Russo ]
+  * Fixed country and keymap detection (LP: #428575)
+  * Added Chinese to language selector (LP: #468457)
+  * The amd64 URL for Kubuntu was pointing to the i386 ISO (LP: #465936)
+  * Boot.ini is not restored if drive letter is in upper case (LP:
+    #400936)
+  * Added traditional chinese to language list (LP: #468457)
+  * Default to English if translations are not available (LP: #469131)
+  * Better embedded grub.cfg, previous version was a workaround for a 
+    grub2 bug that didn't allow us to test for the existance of a 
+    file. That grub bug (rev 1724) has now been fixed.  
+  * Bumped preseed suite to lucid
+  * Avoid error due to null cd_path (LP: #552357)
+  * Fixed CD menu reboot (LP: #543032)
+  * Safe graphic mode boot option was disabled (LP: #550539)
+
+  [ Colin Watson ]
+  * Handle separate /boot in embedded grub.cfg (idea from Mark Abene in LP
+    #477169).
+  * Fall back to searching for /ubuntu/install/boot/grub/grub.cfg even if
+    /ubuntu/disks/root.disk exists but is unusable (LP: #541607).
+  * Skip " LTS" in .disk/info when comparing versions (see LP #558488).
+  * Build-depend on gcc-multilib on amd64, so that 'gcc -m32' works.
+
+  [ Evan Dandrea ]
+  * Bump to 10.04
+  * Ubuntu Netbook Remix is now the Ubuntu Netbook Edition (LP: #541881).
+  * Update translations from Launchpad.
+  * Updated Ubuntu branding.  Thanks Michael Forrest!
+  * str.replace() does not do in place modification of the string
+    (LP: #567969).
+
+ -- Agostino Russo <agostino.russo@gmail.com>  Wed, 07 Apr 2010 23:42:08 +0100
+
+wubi (9.10) karmic; urgency=low
+
+  [ Agostino Russo ]
+  * Upped references to 9.10/karmic
+  * Synched grubutil branch with upstream
+  * Do not show original absolute path of bytecompiled modules in error
+    logs (LP: #389424)
+  * Use sys.exc_info() in error logs as suggested by Colin J. Watson
+    (LP: #389424)
+  * Use --locale to select locale when starting wubi, thanks Adi Roiban
+    (LP: #376890)
+  * Fixed i18n errors in progress_page.py, thanks Adi Roiban (LP: #376925)
+  * Fixed untranslatable string, thanks Adi Roiban (LP: #376457)
+  * Spin-off of pypack, which turns a script into a self-contained
+    directory with all required dependencies, might be useful to others
+  * Now using grub2
+  * Fixed typos in pypack
+  * Updated grubutil to rev 31
+  * Add grub modules in correct order
+  * Fixed grub.cfg files
+  * Ignore '-' in distro name (thanks Evan Dandrea)
+  * Fixed typos in tasklist
+  * Grub modules have been renamed upstream
+  * Allow booting via the grub2 loopmount module
+  * Modified embedded grub cfg since root.disk is available at
+    installation time
+  * Added back syncio mount option
+  * Use ext4 by default (lp: #444214)
+  * Support Japanese-multibyte usernames, patch provided by Jun
+    Kobayashi, (LP: #452348)
+  * Updated translations, syncing from Rosetta
+
+  [ Michael Casadevall ]
+  * Added support for UNR
+  * Modified isolist.ini to represent new casper filename; capser.lz for lzma
+    compressed initramfses
+
+  [ Evan Dandrea ]
+  * Add support for Kubuntu Netbook Edition (LP: #402850).
+  * Fix typos for netbook images in data/isolist.ini.
+  * Support dashes in project names.  Thanks Steve Kowalik!
+  * Factor in free space on the source device when calculating whether
+    it's too big to use Wubi with.  This fixes using Wubi on
+    sufficiently large USB disks.
+  * Kubuntu Netbook Edition is now Kubuntu Netbook.
+  * Use i386 if an amd64 version of the selected distribution does not
+    exist.
+  * Use the correct syntax for grub2 (elif does not exist).  Thanks to
+    Colin Watson for the tip.
+  * Use $default_filesystem in place of ext4.
+
+  [ Colin Watson ]
+  * Use "new" simplified partman preseeding (actually available since
+    hardy).
+  * Pass rootflags= rather than ROOTFLAGS=, since as far as I can tell
+    initramfs-tools ignores the latter.
+
+ -- Agostino Russo <agostino.russo@gmail.com>  Sat, 24 Oct 2009 10:38:22 +0100
+
+wubi (9.04) jaunty; urgency=low
+
+  [ Agostino Russo ]
+  * Initial revision
+  * Hello world, we have a window showing
+  * Fixed loop on quit
+  * Fixed tools
+  * Added logging support
+  * Reorganized commandline arguments
+  * Improved progress object
+  * Added data dir
+  * Added win32 wizard base page class
+  * Added mappings
+  * Initial win32 page layout
+  * Using basic window as panel
+  * Refactored shared_backend.py into common/backend.py & friends
+  * Added metalink parser
+  * Removed testing metalink code
+  * Added progress page
+  * Improved quit mechanism
+  * Added tasklist as a more general replacement of the progress object
+  * Revised tool scripts
+  * Added windows system info detection
+  * Added installation page (partially implemented)
+  * Minor GUI layout changes
+  * Added installation finish page
+  * Modified code to support Python 2.3 (for licensing and size reasons)
+  * Added bittornado source importer
+  * Added ipython setup
+  * Bumped version to 9.04
+  * Added required binaries (will be compiled at a later stage)
+  * Added uninstallation page
+  * Added pylauncher
+  * Added BitTorrent source
+  * Added documentation and licenses
+  * Connected download managers
+  * Fixed download status updates
+  * Added more information to the README
+  * Made the tasklist thread daemonic so that it does not prevent the
+    main application from quitting
+  * Reformatted the README file
+  * Modified urlgrabber to make the download terminate if so
+    instructed by the controlling thread via the update callback
+  * Improved the tasklist module to allow for nested backend jobs
+  * Refined tasklist
+  * Added a stubs for username and timezone
+  * Fixed installation finsih page, since reboot was executed before
+    showing the page
+  * Added cd menu page, to be completed
+  * Modified log formatting
+  * Completed cd menu page
+  * Added mythbuntu to isolist.ini
+  * Slight simplification of the frontend
+  * Fixed ISO backup during uninstallation
+  * Added finish pages
+  * Added preliminary code to generate virtual disk files, to be completed
+  * Added timezone detection
+  * Allocate disk space for virtual disks, to be tested
+  * Added wubizip compilation mode, to create a debugger friendly
+    environment
+  * More robust copytree
+  * Use regex to parse .disk/info
+  * Fixed task progress callback
+  * Have a different uninstallation message when the installer is run
+    and a previous installation is detected
+  * Path joining whith a drive as first item whitout trailing slash was
+    returning the user home directory
+  * Improved download manager
+  * Added mirror selection
+  * Fixed MD5 calculation which was limited to files less than 100MB
+  * Refactoring of ISO retrieval code
+  * Fixed bootloader modification code
+  * Added keyboard layout detection
+  * Fixed generation of pressed and menu.lst as the templating was
+    incomplete
+  * Added wunui functionality that might help with transparent widgets
+  * Fixed formatting of the partitioning section in the preseed file
+  * Do not show the console when running pylauncher (thanks Hampus
+    Wessman)
+  * Added memory and size checks
+  * Added tabstops to controls in winui
+  * When checking the version string, be less strict and allow
+    for subversions (thanks Evan Dandrea)
+  * Fixed typo in the grub menu template
+  * Run the uninstaller if the binary name begings with 'uninstall-'
+  * Make sure that the backup dir is named after the target dir
+  * Typo, it is preseed.cfg and not preseed.conf
+  * Cleaned up custom installation hooks
+  * Trailing white space does not get along well with line continuations
+    in preseed.cfg
+  * Improved arch detection
+  * Strip cpuid binary to reduce size
+  * Set the version and revision via the makefile
+  * Verify metalink md5 signature using openpgp and python-crypto
+  * Check md5 of blobs installed within wine during compilation
+  * Skip console logging when running as a packaged executable (pythonw)
+  * Use a local 32 bit CD/ISO even if the CPU arch is 64 bit
+  * Added license to source files
+  * More precise progress reporting
+  * Fixed automatic version string generation
+  * Preseed user-setup/encrypt-home (thanks Evan Dandrea)
+  * Use the old uninstaller, if available, to remove an old installation
+  * Editing an existing registry item requires opening the key with a
+    special flag
+  * Modified uninstaller behaviour, it now uninstalls the directory
+    specified in the registry
+  * Make sure that the uninstallers of previous versions can be launched
+  * Only show the subtask progressbar when the progress is non-zero
+  * ConfigParser is not adequate for editing boot.ini, replaced with ad
+    hoc implementation
+  * Added more registry information, to be displayed in the Control
+    Panel
+  * Renamed a few variables for code style consistency
+  * Fixed typo preventing partial zeroing in virtual disk space
+    allocation
+  * Stopped console windows from popping up when running commands
+  * Added salt to the password hashing algorithm
+  * Fixed regression, a premature deletion of the temporary folder was
+    preventing a correct startup
+  * Factored out code that looks for archive start
+  * Compile grub4dos from source as opposed to using precompiled
+    binaries
+  * Added source files for grub4dos and grubutil
+  * Updated mythbuntu and cdmenu preseed templates
+  * Added CD-boot-helper functionality
+  * Reverted grub4dos to revision 63, since revision 64 had issues when
+    displaying the menu
+  * Trap unhandled exceptions and log/notify the user
+  * Fixed CD-boot helper which was failing when extracting CD content
+  * Added installation directory as one of the isolist.ini settings
+  * Fixed unhandled exception message, which wasn't showing properly
+  * Extract ISO from CD instead of copying the files (the latter
+    approach is blocked by #243105)
+  * Fixed target drive selection in CD-boot helper mode, which wasn't
+    checking available free space
+  * Set file attributes to normal before recursively removing a
+    directory
+  * Updated Wubi Icon
+  * Added UI support for Windows themes (LP: #325207)
+  * Fixed uninstaller, that was not being shown when launched by another
+    Wubi instance
+  * Fixed show-info, it was using an incorrect distro instance for the
+    URL
+  * No need to use a second temp directory
+  * Display controls with transparent background without artifacts
+  * Preliminary gettext support (to be completed)
+  * Completed gettext support
+  * Merged old translations
+  * Use previous distro name in strings during uninstallation progress
+  * Provide an option to hide wubi installation in CD menu (LP: #338015)
+  * Reverted previous changes as suggested by Evan Dandrea and instead
+    will hide Wubi option in CD menu if the drive is larger than
+    max_iso_size unless a --force-wubi argument is used (LP: #338015)
+  * Modified English strings to make them less technical and added
+    missing ones
+  * More text string edits
+  * Ask for confirmation before quitting
+  * Some text edits
+  * No need to set the title of the message boxes
+  * Updated gettext template and translations
+  * Fixed typo (LP: #340400)
+  * Fixed CD eject issue due to wrong path (LP: #339907)
+  * Made btdownloader progress strings consistent with the ones used in the
+    standard downloader
+  * Fixed typo in translatable string (LP: #341680)
+  * No need to make a log message translatable
+  * Replaced _ssl.py with a stub since we do not really need ssl
+    functionality, so we save over 150KB compressed
+  * Wubi pot is generated (make pot) and there is no need to include it
+    within the source files
+  * Make path comparisons all in upper case
+  * Merged umenu and wubi translations
+  * Use unicode by default in gettext translations (LP: #344151)
+  * Unicode win api call was using non-unicode argument preventing CD
+    from ejecting (LP: 339907)
+  * The full URL does not fit in the dialog, only show the filename
+  * Avoid division by zero when calculating bittorrent download progress
+  * Remove partially downloaded files before attempting a new download
+  * Cache ISO md5 calculations to avoid recalculating the md5 for the
+    same file (LP: 342250)
+  * Ensure that the local ISO path is stored upon successful download
+  * Point isolist.ini to beta release (only for Ubuntu ISO)
+  * Had the wrong URL for beta in isolist.ini (thanks Colin Watson!)
+  * Added beta URL for Kubuntu
+  * Fixed Kubuntu package name and URLs
+  * Disabled ISO backup because download resume is not fully supported
+    at the moment
+  * Isolist.ini now points to the final release URLs
+  * Allow the uninstaller to delete the directory containing itself by
+    running the python code from a different process/location (LP:
+    #341605)
+  * Added a separate python launcher process, pyrun, in order to support
+    XP windows theming, which was a regression from previous commit
+    (LP: #341065)
+  * Make sure that arguments are properly quoted (thanks Colin Watson!)
+  * Before deleting the temp directory, make sure to move out of there
+    (LP: #341607)
+  * Avoid removing the bcd boot menu multiple times (LP: #354882)
+  * Remove wubildr files from each drive
+  * Check that file extraction from ISO is successful before trying to
+    parse the file (LP: #351966)
+  * The path of the original executable is now quoted, but the quotes
+    have to be stripped out within python (LP: #341605)
+  * Updated translations from rosetta
+  * Set the application icon (LP: #341631)
+  * Fixed typo (LP: #355923)
+  * Make enough space for translated subtitle (LP: #351519)
+  * Fixed typo (LP: #355928)
+  * Ubpdated translations from rosetta
+  * Ensure that the installation directory is not compressed (LP:
+    #359716)
+  * Need to create the installation dir before uncompressing it (LP:
+    #359716)
+  * Fixed variable scope in previous patch (LP: #359716)
+  * When checking the username use the same regex as in user-setup,
+    thanks Evan Dandrea
+  * Properly sanitize host username to avoid UnicodeDecodeError (LP:
+    #344151)
+  * Uncompress all target subdirectories (LP: #359716)
+  * If the target directory already exists, quit with an error message
+    (LP: #364166)
+  * Avoid non-ascii chars in username and volume name (lp: #365648)
+  * Mixed up encode/decode str methods, again
+  * Encode unicode translations to avoid file write failures (LP:
+    #365642)
+  * Do not quit if there are ISO extraction problems, try to download
+    instead (LP: #371264)
+  * Do not quit if there are ISO info parsing errors due to file
+    corruption (LP: #366009)
+  * Avoid white spaces in ISO name (LP: #365829)
+  * Fixed vfat filesystem detection (LP: #369225)
+  * More robust ISO check to avoid failures when the ISO file is
+    corrupted
+  * Change the locale according to the language selector (LP: #373421)
+  * The compact command is not supported on a vfat filesystems
+  * Fixed translatable strings, thanks Adi Roiban (LP: #376457)
+  * Added update-po to makefile, thanks Adi Roiban (LP: #376463)
+  * Kubuntu metalink URL does not start with 'http' (LP: #383752)
+  * Fixed i18n errors in progress_page.py (thanks Adi Roiban)
+
+  [ Hampus Wessman ]
+  * Added a new metalink parser
+  * Fixed the check for wine so that it looks in additonal places
+  * Added tools/wine to the branch
+  * Fixed a bug in virtualdisk.py
+  * Added deletion of temporary directory
+  * Fixed archive signature search in unpack.c
+  * Removed some debugging code
+
+  [ Evan Dandrea ]
+  * Fixed a typo in the translation template.
+  * Require adminstrator privileges (LP: #340400).  Thanks Agostino Russo!
+  * os.environ is a dictionary, not a callable method.
+  * Only uncompress files in the boot directory (LP: #341640).  Thanks Agostino
+    Russo!
+  * Call the correct bootloader installation method for each version of
+    Windows.
+  * Use registry.{get,set}_value not the nonexistent
+    registry.{get,set}_key.
+  * Fix typo where a bcdedit command was accidentally created using
+    concatenation.
+  * subprocess.Popen takes a list of string arguments.
+  * Bcdedit requires absolute paths.
+  * There's no need to quote arguments to commands when using Popen.  It
+    passes them straight through, so you'll get "Ubuntu Linux" instead of
+    Ubuntu Linux.
+  * Removed an erroneous closing parentheses in the use_cd check.
+  * Ignore any failure in delete_directory as it is just working with temporary
+    directories.
+  * Ensure that vista boot menu entry points to the correct wubildr file
+    (LP: #358356)
+  * Remove the /S flag from compact calls.  It forces compact to run
+    against the current directory.
+
+  [ Mario Limonciello ]
+  * Update mythbuntu.preseed to use the latest strings available in
+    ubiquity-frontend-mythbuntu.
+  * Check for preseed.$(distro) in the data directory before assuming that
+    preseed.lupin should be used. (LP: #359834)
+
+ -- Agostino Russo <agostino.russo@gmail.com>  Fri, 12 Jun 2009 01:23:22 +0100

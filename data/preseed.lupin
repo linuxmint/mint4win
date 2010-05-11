@@ -1,0 +1,76 @@
+## LOCALE
+# set using kernel boot arguments
+
+## KEYBOARD
+# set using kernel boot arguments
+
+## NETWORKING
+d-i netcfg/choose_interface select auto
+d-i netcfg/dhcp_failed note
+d-i netcfg/dhcp_options select Do not configure the network at this time
+d-i netcfg/get_hostname string ubuntu
+d-i netcfg/get_domain string ubuntu-domain
+d-i netcfg/wireless_essid string essid
+d-i netcfg/wireless_wep string
+
+## SHELL COMMANDS.
+d-i preseed/early_command string [ -x /custom-installation/hooks/early-command.sh ] && /custom-installation/hooks/early-command.sh
+
+## UBIQUITY
+ubiquity	ubiquity/summary	note
+ubiquity	ubiquity/reboot boolean true
+ubiquity    ubiquity/success_command string [ -x /custom-installation/hooks/success-command.sh ] && /custom-installation/hooks/success-command.sh
+ubiquity    ubiquity/failure_command string [ -x /custom-installation/hooks/failure-command.sh ] && /custom-installation/hooks/failure-command.sh
+
+## SKIP Security-Update-Error
+d-i apt-setup/security-updates-failed note
+
+## MIRRORS
+d-i mirror/http/proxy string
+
+## SUITE
+d-i mirror/suite string lucid
+
+## PARTITIONING
+$(partitioning)
+d-i partman/confirm_write_new_label boolean true
+d-i partman/choose_partition select finish
+d-i partman/confirm boolean true
+d-i partman/filter_mounted boolean false
+d-i ubiquity/partman-skip-unmount boolean true
+
+
+## CLOCK AND TIME ZONE
+d-i clock-setup/utc boolean false
+d-i time/zone string $(timezone)
+
+## USER ACCOUNT
+d-i passwd/root-login boolean false
+d-i passwd/user-fullname string $(user_full_name)
+d-i passwd/username string $(username)
+d-i passwd/user-password-crypted password $(password)
+d-i user-setup/encrypt-home boolean false
+
+## BOOT LOADER
+d-i lilo-installer/skip boolean true
+d-i grub-installer/bootdev_directory string /ubuntu/disks
+d-i grub-installer/only_debian boolean true
+d-i grub-installer/with_other_os boolean true
+
+## PACKAGE SELECTION
+tasksel tasksel/first multiselect $(distro_packages)
+
+## FINISH FIRST STAGE
+d-i finish-install/reboot_in_progress note
+d-i cdrom-detect/eject boolean false
+
+## X CONFIGURATION
+xserver-xorg xserver-xorg/autodetect_monitor boolean true
+
+## MIGRATION-ASSISTANT
+#UserFolder=$(user_directory)
+d-i anna/choose_modules multiselect migration-assistant
+d-i migration-assistant/partitions multiselect $(host_os_name) (/dev/MADEVICE)
+d-i migration-assistant/MADEVICE/users multiselect $(host_username)
+d-i migration-assistant/MADEVICE/$(safe_host_username)/items multiselect AIM Triton, Internet Explorer, Yahoo, MSN, Opera, Firefox, Wallpaper, User Picture, Outlook Express, Gaim
+d-i migration-assistant/MADEVICE/$(safe_host_username)/user string $(username)
