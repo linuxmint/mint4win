@@ -1,5 +1,5 @@
 # #-#-#-#-#  fr.po (Wubi 187)  #-#-#-#-#
-# Translation template for Wubi (Windows Ubuntu Installer)
+# Translation template for Wubi (Windows Linux Mint Installer)
 # This file is distributed under the same license as the Wubi package.
 # Web site: https://launchpad.net/wubi/
 #

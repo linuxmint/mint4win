@@ -2,7 +2,7 @@
 #
 # Written by Agostino Russo <agostino.russo@gmail.com>
 #
-# This file is part of Wubi the Win32 Ubuntu Installer.
+# This file is part of Wubi the Win32 Linux Mint Installer.
 #
 # Wubi is free software; you can redistribute it and/or modify
 # it under 5the terms of the GNU Lesser General Public License as
@@ -172,10 +172,10 @@ class Distro(object):
         '''
         Parses the file within the ISO
         that contains metadata on the iso
-        e.g. .disk/info in Ubuntu
-        Ubuntu 9.04 "Jaunty Jackalope" - Alpha i386 (20090106)
-        Ubuntu 9.04 "Jaunty Jackalope" - Alpha i386 (20090106.1)
-        Ubuntu Split Name 9.04.1 "Jaunty Jackalope" - Final Release i386 (20090106.2)
+        e.g. .disk/info in Linux Mint
+        Linux Mint 9.04 "Jaunty Jackalope" - Alpha i386 (20090106)
+        Linux Mint 9.04 "Jaunty Jackalope" - Alpha i386 (20090106.1)
+        Linux Mint Split Name 9.04.1 "Jaunty Jackalope" - Final Release i386 (20090106.2)
         '''
         log.debug("  parsing info from str=%s" % info)
         if not info:
