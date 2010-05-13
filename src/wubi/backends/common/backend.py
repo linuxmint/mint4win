@@ -235,8 +235,8 @@ class Backend(object):
         time.sleep(1)
 
     def check_metalink(self, metalink, base_url, associated_task=None):
-        if self.info.skip_md5_check:
-            return True
+        #if self.info.skip_md5_check:
+        return True
         url = base_url +"/" + self.info.distro.metalink_md5sums
         metalink_md5sums = downloader.download(url, self.info.install_dir, web_proxy=self.info.web_proxy)
         url = base_url +"/" + self.info.distro.metalink_md5sums_signature
@@ -259,8 +259,8 @@ class Backend(object):
         if not self.info.distro.is_valid_cd(cd_path, check_arch=False):
             return False
         self.set_distro_from_arch(cd_path)
-        if self.info.skip_md5_check:
-            return True
+        #if self.info.skip_md5_check:
+        return True
         md5sums_file = join_path(cd_path, self.info.distro.md5sums)
         for rel_path in self.info.distro.get_required_files():
             if rel_path == self.info.distro.md5sums:
@@ -276,8 +276,8 @@ class Backend(object):
         if not self.info.distro.is_valid_iso(iso_path, check_arch=False):
             return False
         self.set_distro_from_arch(iso_path)
-        if self.info.skip_md5_check:
-            return True
+        #if self.info.skip_md5_check:
+        return True
         md5sum = None
         if not self.info.distro.metalink:
             get_metalink = associated_task.add_subtask(
