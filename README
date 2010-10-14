@@ -1,6 +1,6 @@
 == Introduction ==
 
-Wubi is the Windows Ubuntu Installer. Wubi installs Ubuntu inside a file
+Wubi is the Windows Linux Mint Installer. Wubi installs Linux Mint inside a file
 within a windows partition, and thus it does not require CD burning or
 dedicated partitions, yet the installation is a dual boot setup identical
 to a normal installation.
@@ -8,7 +8,7 @@ to a normal installation.
 For more information see:
 
 http://wubi-installer.org
-http://wiki.ubuntu.com/WubiGuide
+http://wiki.linuxmint.com/WubiGuide
 
 == Compiling ==
 
@@ -64,8 +64,8 @@ machine.
 == Customizations ==
 
  * edit the files in data as appropriate and build your image
- * you will need to provide an ISO that is similar to the Ubuntu ISO and in
-particular it must have .disk/info formatted like .disk/info in the Ubuntu ISO
+ * you will need to provide an ISO that is similar to the Linux Mint ISO and in
+particular it must have .disk/info formatted like .disk/info in the Linux Mint ISO
  * you must provide a webserver with metalink file, metalink file md5
 checksums and signatures for the md5 sums
  * add your signing key to data/trustedkeys.gpg
