@@ -1,0 +1,3 @@
+build/*
+wine
+tools/buildtest
