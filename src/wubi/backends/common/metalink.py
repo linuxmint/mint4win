@@ -2,7 +2,7 @@
 #
 # Written by Hampus Wessman
 #
-# This file is part of Wubi the Win32 Linux Mint Installer.
+# This file is part of Wubi the Win32 Ubuntu Installer.
 #
 # Wubi is free software; you can redistribute it and/or modify
 # it under 5the terms of the GNU Lesser General Public License as
@@ -21,7 +21,7 @@
 import copy
 import xml.sax
 import xml.sax.handler
-from xml.sax.saxutils import escape, unescape
+from xml.sax.saxutils import unescape
 
 class MetalinkException(Exception):
     def __init__(self, message):

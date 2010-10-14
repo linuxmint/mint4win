@@ -290,7 +290,7 @@ msgstr "(%sGB brīvi)"
 #: src/wubi/frontends/win32/installation_page.py:177
 msgid "Please select username and password for the new account"
 msgstr ""
-"Lūdzu izvēlieties jaunā Linux Mint lietotāja konta lietotājvārdu un paroli"
+"Lūdzu izvēlieties jaunā Ubuntu lietotāja konta lietotājvārdu un paroli"
 
 #: src/wubi/frontends/win32/installation_page.py:181
 #: src/wubi/frontends/win32/cdboot_page.py:46

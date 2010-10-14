@@ -11,4 +11,4 @@ Architecture: any
 Depends: ${python:Depends}, ${shlibs:Depends}
 Provides: ${python:Provides}
 XB-Python-Version: ${python:Versions}
-Description: Wubi is the Windows Linux Mint Installe
+Description: Wubi is the Windows Ubuntu Installe

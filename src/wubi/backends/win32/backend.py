@@ -2,7 +2,7 @@
 #
 # Written by Agostino Russo <agostino.russo@gmail.com>
 #
-# This file is part of Wubi the Win32 Linux Mint Installer.
+# This file is part of Wubi the Win32 Ubuntu Installer.
 #
 # Wubi is free software; you can redistribute it and/or modify
 # it under 5the terms of the GNU Lesser General Public License as
@@ -21,8 +21,6 @@
 import sys
 import os
 import _winreg
-import ConfigParser
-import subprocess
 import ctypes
 #import platform
 from drive import Drive
@@ -31,9 +29,9 @@ from eject import eject_cd
 import registry
 from memory import get_total_memory_mb
 from wubi.backends.common.backend import Backend
-from wubi.backends.common.utils import run_command, replace_line_in_file, read_file, write_file, join_path, remove_line_in_file, rm_tree
+from wubi.backends.common.utils import run_command, replace_line_in_file, read_file, write_file, join_path, remove_line_in_file
 from wubi.backends.common.mappings import country2tz, name2country, gmt2country, country_gmt2tz, gmt2tz
-from os.path import abspath, dirname, isfile, isdir, exists
+from os.path import abspath, isfile, isdir
 import mappings
 import shutil
 import logging

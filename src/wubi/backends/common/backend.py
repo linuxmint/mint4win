@@ -2,7 +2,7 @@
 #
 # Written by Agostino Russo <agostino.russo@gmail.com>
 #
-# This file is part of Wubi the Win32 Linux Mint Installer.
+# This file is part of Wubi the Win32 Ubuntu Installer.
 #
 # Wubi is free software; you can redistribute it and/or modify
 # it under 5the terms of the GNU Lesser General Public License as
@@ -25,7 +25,6 @@ import locale
 import struct
 import logging
 import time
-import mappings
 import gettext
 import glob
 import shutil
@@ -38,9 +37,9 @@ from metalink import parse_metalink
 from tasklist import ThreadedTaskList, Task
 from distro import Distro
 from mappings import lang_country2linux_locale
-from utils import join_path, run_command, run_nonblocking_command, md5_password, copy_file, replace_line_in_file, read_file, write_file, get_file_md5, reversed, find_line_in_file, unix_path, rm_tree
+from utils import join_path, run_nonblocking_command, md5_password, copy_file, read_file, write_file, get_file_md5, reversed, find_line_in_file, unix_path, rm_tree
 from signature import verify_gpg_signature
-from os.path import abspath, dirname, isfile, isdir, exists
+from os.path import abspath, dirname
 
 log = logging.getLogger("CommonBackend")
 
@@ -235,8 +234,8 @@ class Backend(object):
         time.sleep(1)
 
     def check_metalink(self, metalink, base_url, associated_task=None):
-        #if self.info.skip_md5_check:
-        return True
+        if self.info.skip_md5_check:
+            return True
         url = base_url +"/" + self.info.distro.metalink_md5sums
         metalink_md5sums = downloader.download(url, self.info.install_dir, web_proxy=self.info.web_proxy)
         url = base_url +"/" + self.info.distro.metalink_md5sums_signature
@@ -259,8 +258,8 @@ class Backend(object):
         if not self.info.distro.is_valid_cd(cd_path, check_arch=False):
             return False
         self.set_distro_from_arch(cd_path)
-        #if self.info.skip_md5_check:
-        return True
+        if self.info.skip_md5_check:
+            return True
         md5sums_file = join_path(cd_path, self.info.distro.md5sums)
         for rel_path in self.info.distro.get_required_files():
             if rel_path == self.info.distro.md5sums:
@@ -276,8 +275,8 @@ class Backend(object):
         if not self.info.distro.is_valid_iso(iso_path, check_arch=False):
             return False
         self.set_distro_from_arch(iso_path)
-        #if self.info.skip_md5_check:
-        return True
+        if self.info.skip_md5_check:
+            return True
         md5sum = None
         if not self.info.distro.metalink:
             get_metalink = associated_task.add_subtask(
@@ -618,7 +617,7 @@ class Backend(object):
             kernel = unix_path(self.info.kernel),
             initrd = unix_path(self.info.initrd),
             rootflags = rootflags,
-            title1 = "Completing the Linux Mint installation.",
+            title1 = "Completing the Ubuntu installation.",
             title2 = "For more installation boot options, press `ESC' now...",
             normal_mode_title = "Normal mode",
             safe_graphic_mode_title = "Safe graphic mode",

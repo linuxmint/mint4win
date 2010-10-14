@@ -2,7 +2,7 @@
 #
 # Written by Agostino Russo <agostino.russo@gmail.com>
 #
-# This file is part of Wubi the Win32 Linux Mint Installer.
+# This file is part of Wubi the Win32 Ubuntu Installer.
 #
 # Wubi is free software; you can redistribute it and/or modify
 # it under 5the terms of the GNU Lesser General Public License as
@@ -19,7 +19,7 @@
 #
 
 import ctypes
-from winui.defs import NULL, FILE_SHARE_READ, FILE_SHARE_WRITE, GENERIC_READ, GENERIC_WRITE,CREATE_ALWAYS, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL
+from winui.defs import FILE_SHARE_READ, FILE_SHARE_WRITE, GENERIC_READ, OPEN_EXISTING
 IOCTL_STORAGE_EJECT_MEDIA = 0x2D4808
 
 

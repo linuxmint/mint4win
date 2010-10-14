@@ -1,7 +1,7 @@
 # Catalan translation for wubi
 # Copyright (c) 2007 Rosetta Contributors and Canonical Ltd 2007
 # This file is distributed under the same license as the wubi package.
-# Josep Sànchez Mesegué [papapep] <josep.sanchez@linuxmint.cat>, 2008.
+# Josep Sànchez Mesegué [papapep] <josep.sanchez@ubuntu.cat>, 2008.
 #
 msgid ""
 msgstr ""
