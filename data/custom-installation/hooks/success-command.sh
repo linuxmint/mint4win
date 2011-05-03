@@ -8,7 +8,7 @@ if [ -d /custom-installation ]; then
 fi
 
 #usplash.conf is sometimes incorrect 
-#https://bugs.launchpad.net/ubuntu/+source/ubiquity/+bug/150930
+#https://bugs.launchpad.net/linuxmint/+source/ubiquity/+bug/150930
 #better wrong geometry than black screen
 #~ echo '
 #~ xres=1024
@@ -29,7 +29,7 @@ if [ -d /custom-installation/packages ]; then
 fi
 
 #remove preseed file and menu.lst
-#rm /host/ubuntu/install/custom-installation/preseed.cfg || true
-#rm /host/ubuntu/install/boot/grub/menu.lst || true
-rm -rf /host/ubuntu/install || true
+#rm /host/linuxmint/install/custom-installation/preseed.cfg || true
+#rm /host/linuxmint/install/boot/grub/menu.lst || true
+rm -rf /host/linuxmint/install || true
 
