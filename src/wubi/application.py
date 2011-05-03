@@ -2,7 +2,7 @@
 #
 # Written by Agostino Russo <agostino.russo@gmail.com>
 #
-# This file is part of Wubi the Win32 Linux Mint Installer.
+# This file is part of Wubi the Win32 Ubuntu Installer.
 #
 # Wubi is free software; you can redistribute it and/or modify
 # it under 5the terms of the GNU Lesser General Public License as
@@ -52,6 +52,7 @@ class Wubi(object):
             log.debug("Logfile is %s" % self.info.log_file)
             log.debug("sys.argv = %s" % sys.argv)
             self.backend = self.get_backend()
+            self.backend.remove_existing_binary()
             self.backend.fetch_basic_info()
             self.select_task()
         except Exception, err:

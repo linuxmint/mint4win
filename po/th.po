@@ -7,31 +7,53 @@ msgid ""
 msgstr ""
 "Project-Id-Version: wubi\n"
 "Report-Msgid-Bugs-To: agostino.russo@gmail.com\n"
-"POT-Creation-Date: 2009-11-03 23:48+0000\n"
-"PO-Revision-Date: 2010-03-20 07:09+0000\n"
+"POT-Creation-Date: 2011-04-04 11:04+0100\n"
+"PO-Revision-Date: 2010-05-24 04:45+0000\n"
 "Last-Translator: SiraNokyoongtong <gumaraa@gmail.com>\n"
 "Language-Team: Thai <th@li.org>\n"
+"Language: th\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Launchpad-Export-Date: 2010-04-18 09:24+0000\n"
-"X-Generator: Launchpad (build Unknown)\n"
+"X-Launchpad-Export-Date: 2011-04-04 10:01+0000\n"
+"X-Generator: Launchpad (build 12710)\n"
 
-#: src/wubi/backends/win32/backend.py:152
+#: src/wubi/application.py:64
 #, python-format
 msgid ""
-"The installation failed. Logs have been saved in: %s.\n"
+"An error occurred:\n"
 "\n"
-"Note that in verbose mode, the logs may include the password.\n"
+"%(error)s\n"
 "\n"
-"The system will now reboot."
+"For more information, please see the log file: %(log)s"
 msgstr ""
-"การติดตั้งล้มเหลว ปูมบันทึกถูกเก็บไว้แล้วที่: %s\n"
+"เกิดข้อผิดพลาดขึ้น:\n"
 "\n"
-"หมายเหตุดังกล่าวอยู่ใน verbose mode, ปูมบันทึกอาจผนวกรหัสผ่านนั้นไว้ด้วย\n"
+"%(error)s\n"
 "\n"
-"ระบบจะเริ่มใหม่ในตอนนี้"
+"สำหรับข้อมูลเพิ่มเติม โปรดดูแฟ้มปูม: %(log)s"
+
+#: src/wubi/application.py:147 src/wubi/application.py:208
+#, python-format
+msgid ""
+"A previous installation was detected in %s.\n"
+"Please uninstall that before continuing."
+msgstr ""
+"ตรวจพบการติดตั้ง %s ครั้งก่อน\n"
+"โปรดถอดถอนมันก่อนดำเนินการต่อ"
+
+#: src/wubi/application.py:190
+msgid "No CD detected, cannot run CD menu"
+msgstr "ไม่พบซีดี, ไม่สามารถเรียกใช้เมนูซีดี"
+
+#: src/wubi/application.py:198
+msgid ""
+"Could not find any valid CD.\n"
+"CD boot helper can only be used with a Live CD."
+msgstr ""
+"ไม่สามารถค้นหาซีดีที่ถูกต้อง\n"
+"ตัวช่วยบูตซีดีใช้ได้กับ Live CD เท่านั้น"
 
 #: src/wubi/backends/common/tasklist.py:256
 #: src/wubi/backends/common/tasklist.py:260
@@ -53,137 +75,131 @@ msgstr "%imin"
 msgid "%is"
 msgstr "%is"
 
-#: src/wubi/backends/common/downloader.py:66
-#: src/wubi/backends/common/btdownloader.py:36
-#, python-format
-msgid "Downloading %s"
-msgstr "กำลังดาวน์โหลด %s"
-
-#: src/wubi/backends/common/backend.py:77
-#: src/wubi/backends/common/backend.py:98
+#: src/wubi/backends/common/backend.py:76
+#: src/wubi/backends/common/backend.py:97
 msgid "Selecting the target directory"
 msgstr "กำลังเลือกไดเรกทอรีเป้าหมาย"
 
-#: src/wubi/backends/common/backend.py:78
-#: src/wubi/backends/common/backend.py:99
+#: src/wubi/backends/common/backend.py:77
+#: src/wubi/backends/common/backend.py:98
 msgid "Creating the installation directories"
 msgstr "กำลังสร้างไดเรกทอรีติดตั้ง"
 
-#: src/wubi/backends/common/backend.py:79
-#: src/wubi/backends/common/backend.py:89
-#: src/wubi/backends/common/backend.py:100
-#: src/wubi/backends/common/backend.py:108
+#: src/wubi/backends/common/backend.py:78
+#: src/wubi/backends/common/backend.py:88
+#: src/wubi/backends/common/backend.py:99
+#: src/wubi/backends/common/backend.py:107
 msgid "Uncompressing files"
 msgstr "กำลังแตกย่อยแฟ้ม"
 
-#: src/wubi/backends/common/backend.py:80
-#: src/wubi/backends/common/backend.py:101
+#: src/wubi/backends/common/backend.py:79
+#: src/wubi/backends/common/backend.py:100
 msgid "Creating the uninstaller"
 msgstr "กำลังสร้างตัวถอดถอนการติดตั้ง"
 
-#: src/wubi/backends/common/backend.py:81
-#: src/wubi/backends/common/backend.py:102
-#: src/wubi/backends/common/backend.py:425
-#: src/wubi/backends/common/backend.py:431
+#: src/wubi/backends/common/backend.py:80
+#: src/wubi/backends/common/backend.py:101
+#: src/wubi/backends/common/backend.py:424
+#: src/wubi/backends/common/backend.py:430
 msgid "Copying installation files"
 msgstr "กำลังสำเนาแฟ้มการติดตั้ง"
 
-#: src/wubi/backends/common/backend.py:82
+#: src/wubi/backends/common/backend.py:81
 msgid "Retrieving installation files"
 msgstr "กำลังรับแฟ้มติดตั้ง"
 
-#: src/wubi/backends/common/backend.py:83
-#: src/wubi/backends/common/backend.py:104
+#: src/wubi/backends/common/backend.py:82
+#: src/wubi/backends/common/backend.py:103
 msgid "Extracting the kernel"
 msgstr "กำลังแตกย่อยเคอร์เนล"
 
-#: src/wubi/backends/common/backend.py:84
+#: src/wubi/backends/common/backend.py:83
 msgid "Choosing disk sizes"
 msgstr "กำลังเลือกขนาดดิสก์"
 
-#: src/wubi/backends/common/backend.py:85
-#: src/wubi/backends/common/backend.py:105
+#: src/wubi/backends/common/backend.py:84
+#: src/wubi/backends/common/backend.py:104
 msgid "Creating a preseed file"
 msgstr "กำลังสร้างแฟ้ม preseed"
 
-#: src/wubi/backends/common/backend.py:86
-#: src/wubi/backends/common/backend.py:106
+#: src/wubi/backends/common/backend.py:85
+#: src/wubi/backends/common/backend.py:105
 msgid "Adding a new bootloader entry"
 msgstr "กำลังเพิ่มรายการบูตโหลดเดอร์ใหม่"
 
-#: src/wubi/backends/common/backend.py:87
-#: src/wubi/backends/common/backend.py:107
+#: src/wubi/backends/common/backend.py:86
+#: src/wubi/backends/common/backend.py:106
 msgid "Setting up installation boot menu"
 msgstr "กำลังตั้งค่าบูตเมนู"
 
-#: src/wubi/backends/common/backend.py:88
+#: src/wubi/backends/common/backend.py:87
 msgid "Creating the virtual disks"
 msgstr "กำลังสร้างดิสก์เสมือน"
 
-#: src/wubi/backends/common/backend.py:90
-#: src/wubi/backends/common/backend.py:109
+#: src/wubi/backends/common/backend.py:89
+#: src/wubi/backends/common/backend.py:108
 msgid "Ejecting the CD"
 msgstr "กำลังคายซีดี"
 
-#: src/wubi/backends/common/backend.py:92
+#: src/wubi/backends/common/backend.py:91
 #: src/wubi/frontends/win32/progress_page.py:39
 #, python-format
 msgid "Installing %(distro)s-%(version)s"
 msgstr "กำลังติดตั้ง %(distro)s-%(version)s"
 
-#: src/wubi/backends/common/backend.py:103
+#: src/wubi/backends/common/backend.py:102
 msgid "Extracting CD content"
 msgstr "กำลังแตกย่อยเนื้อหาในซีดี"
 
-#: src/wubi/backends/common/backend.py:111
+#: src/wubi/backends/common/backend.py:110
 msgid "Installing CD boot helper"
 msgstr "กำลังติดตั้งตัวช่วยบูตซีดี"
 
-#: src/wubi/backends/common/backend.py:116
-#: src/wubi/backends/common/backend.py:118
+#: src/wubi/backends/common/backend.py:115
+#: src/wubi/backends/common/backend.py:117
 msgid "Rebooting"
 msgstr "กำลังเริ่มใหม่"
 
-#: src/wubi/backends/common/backend.py:123
+#: src/wubi/backends/common/backend.py:122
 msgid "Backup ISO"
 msgstr "สำรอง ISO"
 
-#: src/wubi/backends/common/backend.py:124
+#: src/wubi/backends/common/backend.py:123
 msgid "Remove bootloader entry"
 msgstr "ถอดถอนรายการบูตโหลดเดอร์"
 
-#: src/wubi/backends/common/backend.py:125
+#: src/wubi/backends/common/backend.py:124
 msgid "Remove target dir"
 msgstr "ถอดถอนไดเรกทอรีเป้าหมาย"
 
-#: src/wubi/backends/common/backend.py:126
+#: src/wubi/backends/common/backend.py:125
 msgid "Remove registry key"
 msgstr "ถอดถอนกุญแจรีจิสทรี"
 
-#: src/wubi/backends/common/backend.py:127
+#: src/wubi/backends/common/backend.py:126
 #, python-format
 msgid "Uninstalling %s"
 msgstr "กำลังถอดถอน %s"
 
-#: src/wubi/backends/common/backend.py:258
+#: src/wubi/backends/common/backend.py:257
 #, python-format
 msgid "Checking CD %s"
 msgstr "กำลังตรวจสอบซีดี %s"
 
-#: src/wubi/backends/common/backend.py:284
-#: src/wubi/backends/common/backend.py:328
-#: src/wubi/backends/common/backend.py:364
+#: src/wubi/backends/common/backend.py:283
+#: src/wubi/backends/common/backend.py:327
+#: src/wubi/backends/common/backend.py:363
 msgid "Downloading information on installation files"
 msgstr "กำลังดาวน์โหลดข้อมูลจากแฟ้มติดตั้ง"
 
-#: src/wubi/backends/common/backend.py:299
-#: src/wubi/backends/common/backend.py:356
-#: src/wubi/backends/common/backend.py:419
+#: src/wubi/backends/common/backend.py:298
+#: src/wubi/backends/common/backend.py:355
+#: src/wubi/backends/common/backend.py:418
 #: src/wubi/backends/common/backend.py:468
 msgid "Checking installation files"
 msgstr "กำลังตรวจสอบแฟ้มติดตั้ง"
 
-#: src/wubi/backends/common/backend.py:390
+#: src/wubi/backends/common/backend.py:389
 #, python-format
 msgid "Validating %s"
 msgstr "กำลังตรวจสอบความถูกต้อง %s"
@@ -198,66 +214,72 @@ msgstr "กำลังแตกย่อยแฟ้มจาก %s"
 msgid "Checking %s"
 msgstr "กำลังตรวจสอบ %s"
 
-#: src/wubi/frontends/win32/frontend.py:51
-msgid "Are you sure you want to quit?"
-msgstr "คุณแน่ใจหรือไม่ที่จะออก?"
-
-#: src/wubi/frontends/win32/uninstallation_finish_page.py:35
-#: src/wubi/frontends/win32/installation_finish_page.py:35
-#: src/wubi/frontends/win32/cd_finish_page.py:35
-msgid "Finish"
-msgstr "เสร็จ"
-
-#: src/wubi/frontends/win32/uninstallation_finish_page.py:41
-msgid "Uninstallation completed"
-msgstr "การถอดถอนสมบูรณ์"
-
-#: src/wubi/frontends/win32/uninstallation_finish_page.py:43
+#: src/wubi/backends/common/downloader.py:65
+#: src/wubi/backends/common/btdownloader.py:36
 #, python-format
-msgid "%s has been successfully uninstalled"
-msgstr "%s ถูกถอดถอนสำเร็จ"
+msgid "Downloading %s"
+msgstr "กำลังดาวน์โหลด %s"
 
-#: src/wubi/frontends/win32/uninstallation_page.py:32
+#: src/wubi/backends/win32/backend.py:150
 #, python-format
-msgid "%s Uninstaller"
-msgstr "ตัวถอดถอน %s"
+msgid ""
+"The installation failed. Logs have been saved in: %s.\n"
+"\n"
+"Note that in verbose mode, the logs may include the password.\n"
+"\n"
+"The system will now reboot."
+msgstr ""
+"การติดตั้งล้มเหลว ปูมบันทึกถูกเก็บไว้แล้วที่: %s\n"
+"\n"
+"หมายเหตุดังกล่าวอยู่ใน verbose mode, ปูมบันทึกอาจผนวกรหัสผ่านนั้นไว้ด้วย\n"
+"\n"
+"ระบบจะเริ่มใหม่ในตอนนี้"
 
-#: src/wubi/frontends/win32/uninstallation_page.py:36
-msgid "Uninstallation required"
-msgstr "จำเป็นต้องถอดถอน"
-
-#: src/wubi/frontends/win32/uninstallation_page.py:38
+#: src/wubi/frontends/win32/cdboot_page.py:32
 #, python-format
-msgid "You are about to uninstall %s"
-msgstr "คุณมีความต้องการถอดถอน %s"
+msgid "%s CD Boot Helper"
+msgstr "ตัวช่วยบูตซีดี %s"
 
-#: src/wubi/frontends/win32/uninstallation_page.py:45
-msgid "Uninstall"
-msgstr "ถอดถอน"
+#: src/wubi/frontends/win32/cdboot_page.py:43
+msgid "Not enough disk space to proceed"
+msgstr "ไม่มีพื้นที่ดิสก์ว่างพอต่อการดำเนินการ"
 
-#: src/wubi/frontends/win32/uninstallation_page.py:45
+#: src/wubi/frontends/win32/cdboot_page.py:46
+#: src/wubi/frontends/win32/installation_page.py:181
+msgid "Accessibility"
+msgstr "สิ่งอำนวยความสะดวก"
+
+#: src/wubi/frontends/win32/cdboot_page.py:46
+#: src/wubi/frontends/win32/installation_page.py:181
+msgid "Install"
+msgstr "ติดตั้ง"
+
+#: src/wubi/frontends/win32/cdboot_page.py:46
 #: src/wubi/frontends/win32/installation_page.py:181
 #: src/wubi/frontends/win32/progress_page.py:44
-#: src/wubi/frontends/win32/cd_finish_page.py:35
 #: src/wubi/frontends/win32/accessibility_page.py:39
 #: src/wubi/frontends/win32/cd_menu_page.py:38
-#: src/wubi/frontends/win32/cdboot_page.py:46
+#: src/wubi/frontends/win32/cd_finish_page.py:35
+#: src/wubi/frontends/win32/uninstallation_page.py:45
 msgid "Cancel"
 msgstr "ยกเลิก"
 
-#: src/wubi/frontends/win32/uninstallation_page.py:52
+#: src/wubi/frontends/win32/cdboot_page.py:54
+msgid "Install CD boot helper"
+msgstr "ติดตั้งตัวช่วยบูตซีดี"
+
+#: src/wubi/frontends/win32/cdboot_page.py:56
 msgid ""
-"A previous installation was detected, it needs to be uninstalled before "
-"continuing"
-msgstr "ค้นพบว่ามีการติดตั้งอยู่ก่อน จำเป็นต้องถอดถอนก่อนดำเนินการต่อ"
-
-#: src/wubi/frontends/win32/uninstallation_page.py:54
-msgid "Are you sure you want to uninstall?"
-msgstr "คุณแน่ใจหรือไม่ที่จะถอดถอน?"
-
-#: src/wubi/frontends/win32/uninstallation_page.py:62
-msgid "Backup the downloaded files (ISO)"
-msgstr "สำรองแฟ้ม (ISO) ที่ดาวน์โหลดแล้ว"
+"If your machine cannot boot off the CD, this program will install a new boot "
+"menu entry to help you boot from CD. In most cases this program is not "
+"needed, and it is sufficient to reboot with the CD-Rom in the tray.\n"
+"\n"
+"Do you want to proceed and install the CD booter?"
+msgstr ""
+"หากเครื่องของคุณไม่สามารถบูตผ่านซีดี โปรแกรมนี้จะติดตั้งเมนูใหม่เพื่อช่วยคุณบูตจากซีดี "
+"กรณีส่วนใหญ่แล้วโปรแกรมนี้ไม่มีความจำเป็น และมันเพียงพอแล้วที่จะเริ่มใหม่ด้วยซีดีรอมที่อยู่ในถาด\n"
+"\n"
+"คุณต้องการดำเนินการและติดตั้งตัวบูตซีดี?"
 
 #: src/wubi/frontends/win32/installation_page.py:73
 #, python-format
@@ -290,23 +312,13 @@ msgstr "(ว่าง %sGB)"
 msgid "Please select username and password for the new account"
 msgstr "โปรดเลือกชื่อผู้ใช้และรหัสผ่าน สำหรับบัญชีผู้ใช้ใหม่"
 
-#: src/wubi/frontends/win32/installation_page.py:181
-#: src/wubi/frontends/win32/cdboot_page.py:46
-msgid "Accessibility"
-msgstr "สิ่งอำนวยความสะดวก"
-
-#: src/wubi/frontends/win32/installation_page.py:181
-#: src/wubi/frontends/win32/cdboot_page.py:46
-msgid "Install"
-msgstr "ติดตั้ง"
-
 #: src/wubi/frontends/win32/installation_page.py:193
 msgid "Installation drive:"
-msgstr "ติดตั้งที่ไดรว์:"
+msgstr "ไดรว์ที่จะติดตั้ง:"
 
 #: src/wubi/frontends/win32/installation_page.py:199
 msgid "Installation size:"
-msgstr "ขนาดติดตั้ง:"
+msgstr "ขนาดที่ติดตั้ง:"
 
 #: src/wubi/frontends/win32/installation_page.py:205
 msgid "Desktop environment:"
@@ -360,12 +372,14 @@ msgid "Please do not use spaces in the username."
 msgstr "โปรดอย่าใช้เว้นวรรคในชื่อผู้ใช้"
 
 #: src/wubi/frontends/win32/installation_page.py:319
-msgid "Your username must start with a letter."
-msgstr "ชื่อผู้ใช้คุณต้องเริ่มต้นด้วยตัวอักษร"
+msgid "Your username must start with a lower-case letter."
+msgstr ""
 
 #: src/wubi/frontends/win32/installation_page.py:321
-msgid "Your username must contain only standard letters and numbers."
-msgstr "ชื่อผู้ใช้ของคุณต้องประกอบไปด้วยตัวอักขระมาตรฐานและตัวเลขเท่านั้น"
+msgid ""
+"Your username must contain only lower-case letters, numbers, hyphens, and "
+"underscores."
+msgstr ""
 
 #: src/wubi/frontends/win32/installation_page.py:323
 msgid "The selected username is reserved, please select a different one."
@@ -385,7 +399,7 @@ msgstr "รหัสผ่านไม่ตรงกัน"
 
 #: src/wubi/frontends/win32/progress_page.py:40
 msgid "Please wait"
-msgstr "กรุณารอสักครู่"
+msgstr "กรุณารอ"
 
 #: src/wubi/frontends/win32/progress_page.py:53
 msgid "Do not download, use a local file"
@@ -397,48 +411,9 @@ msgid "Remaining time approximately %s"
 msgid_plural "Remaining time approximately %s"
 msgstr[0] "เหลือเวลาอีกประมาณ %s"
 
-#: src/wubi/frontends/win32/installation_finish_page.py:41
-#, python-format
-msgid "Completing the %s Setup Wizard"
-msgstr "ตัวช่วยติดตั้ง %s เสร็จสมบูรณ์"
-
-#: src/wubi/frontends/win32/installation_finish_page.py:43
-msgid "You need to reboot to complete the installation"
-msgstr "คุณต้องเริ่มระบบใหม่ เพื่อให้การติดตั้งสมบูรณ์"
-
-#: src/wubi/frontends/win32/installation_finish_page.py:44
-#: src/wubi/frontends/win32/cd_finish_page.py:47
-msgid "Reboot now"
-msgstr "เริ่มใหม่เดี๋ยวนี้"
-
-#: src/wubi/frontends/win32/installation_finish_page.py:45
-msgid "I want to manually reboot later"
-msgstr "ฉันต้องการเริ่มระบบใหม่ด้วยตัวเองภายหลัง"
-
-#: src/wubi/frontends/win32/cd_finish_page.py:35
-msgid "< Back"
-msgstr "< ย้อนกลับ"
-
-#: src/wubi/frontends/win32/cd_finish_page.py:43
-msgid "Reboot required"
-msgstr "ต้องการเริ่มระบบใหม่"
-
-#: src/wubi/frontends/win32/cd_finish_page.py:45
-msgid ""
-"To start the Live CD you need to reboot your machine leaving the CD in the "
-"tray. If your machine cannot boot from the CD, the last option should work "
-"in most cases."
-msgstr ""
-"เพื่อเริ่มใช้ Live CD คุณจำเป็นต้องเริ่มระบบใหม่โดยปล่อยซีดีไว้ในถาด "
-"ถ้าเครื่องของคุณไม่สามารถบูตจากซีดีได้ ตัวเลือกสุดท้ายควรใช้ได้ในกรณีส่วนใหญ่"
-
-#: src/wubi/frontends/win32/cd_finish_page.py:48
-msgid "I want to manually reboot Later"
-msgstr "ฉันต้องการเริ่มระบบใหม่ด้วยตัวเองในภายหลัง"
-
-#: src/wubi/frontends/win32/cd_finish_page.py:49
-msgid "Help me to boot from CD"
-msgstr "ช่วยฉันบูตจากซีดี"
+#: src/wubi/frontends/win32/frontend.py:51
+msgid "Are you sure you want to quit?"
+msgstr "คุณแน่ใจหรือไม่ที่จะออก?"
 
 #: src/wubi/frontends/win32/accessibility_page.py:34
 msgid "Accessibility profile"
@@ -470,7 +445,7 @@ msgstr "Visibility3"
 
 #: src/wubi/frontends/win32/accessibility_page.py:54
 msgid "Braille"
-msgstr "เบรลล์"
+msgstr "อักษรเบรลล์"
 
 #: src/wubi/frontends/win32/accessibility_page.py:57
 msgid "Mobility Aids"
@@ -488,6 +463,30 @@ msgstr "Mobility2"
 msgid "None"
 msgstr "ไม่มี"
 
+#: src/wubi/frontends/win32/installation_finish_page.py:35
+#: src/wubi/frontends/win32/cd_finish_page.py:35
+#: src/wubi/frontends/win32/uninstallation_finish_page.py:35
+msgid "Finish"
+msgstr "เสร็จสิ้น"
+
+#: src/wubi/frontends/win32/installation_finish_page.py:41
+#, python-format
+msgid "Completing the %s Setup Wizard"
+msgstr "ตัวช่วยติดตั้ง %s เสร็จสมบูรณ์"
+
+#: src/wubi/frontends/win32/installation_finish_page.py:43
+msgid "You need to reboot to complete the installation"
+msgstr "คุณต้องเริ่มระบบใหม่ เพื่อให้การติดตั้งสมบูรณ์"
+
+#: src/wubi/frontends/win32/installation_finish_page.py:44
+#: src/wubi/frontends/win32/cd_finish_page.py:47
+msgid "Reboot now"
+msgstr "เริ่มใหม่เดี๋ยวนี้"
+
+#: src/wubi/frontends/win32/installation_finish_page.py:45
+msgid "I want to manually reboot later"
+msgstr "ฉันต้องการเริ่มระบบใหม่ด้วยตัวเองภายหลัง"
+
 #: src/wubi/frontends/win32/cd_menu_page.py:34
 #, python-format
 msgid "%s Menu"
@@ -504,9 +503,9 @@ msgid ""
 "the tray. You may perform a full installation from within the demo to "
 "install %(distro)s either alongside Windows or as the only operating system."
 msgstr ""
-"ทดลอง %(distro)s โดยปราศจากการติดตั้ง! "
-"เพียงเริ่มระบบใหม่โดยปล่อยซีดีไว้ในถาด คุณสามารถดำเนินการติดตั้งอย่างเต็มรูปแ"
-"บบจากตัวทดลอง %(distro)s ควบคู่ไปกับ Windows หรือติดตั้งเพียงระบบปฏิบัติเดียว"
+"ทดลอง %(distro)s โดยปราศจากการติดตั้ง! เพียงเริ่มระบบใหม่โดยปล่อยซีดีไว้ในถาด "
+"คุณสามารถดำเนินการติดตั้งอย่างเต็มรูปแบบจากตัวทดลอง %(distro)s ควบคู่ไปกับ Windows "
+"หรือติดตั้งเพียงระบบปฏิบัติเดียว"
 
 #: src/wubi/frontends/win32/cd_menu_page.py:65
 msgid "Install inside Windows"
@@ -520,9 +519,9 @@ msgid ""
 "or %(distro)s. Hibernation is not enabled in this mode and disk performance "
 "is slightly reduced."
 msgstr ""
-"ติดตั้งและถอดถอน %(distro)s เหมือนกับโปรแกรมอื่น "
-"โดยไม่จำเป็นต้องมีพาร์ทิชันให้ คุณสามารถบูตเข้าสู่ Windows หรือ %(distro)s "
-"ได้ โหมดจำศีลจะไม่สามารถใช้งานได้ และประสิทธิภาพการใช้งานดิสก์จะลดลงเล็กน้อย"
+"ติดตั้งและถอดถอน %(distro)s เหมือนกับโปรแกรมอื่น โดยไม่จำเป็นต้องมีพาร์ทิชันให้ "
+"คุณสามารถบูตเข้าสู่ Windows หรือ %(distro)s ได้ โหมดจำศีลจะไม่สามารถใช้งานได้ "
+"และประสิทธิภาพการใช้งานดิสก์จะลดลงเล็กน้อย"
 
 #: src/wubi/frontends/win32/cd_menu_page.py:74
 msgid "Learn more"
@@ -536,69 +535,70 @@ msgid ""
 "much more."
 msgstr ""
 "%(distro)s นั้นเสรี พัฒนาโดยชุมชน เป็นระบบปฏิบัติการที่มีรากฐานมาจากลินุกซ์ "
-"มีพร้อมซึ่งโปรแกรมท่องเว็บ ซอฟต์แวร์เพื่อการทำงาน ตัวส่งข้อความด่วน และอื่น "
-"ๆ อีกมากมาย"
+"มีพร้อมซึ่งโปรแกรมท่องเว็บ ซอฟต์แวร์เพื่อการทำงาน ตัวส่งข้อความด่วน และอื่น ๆ อีกมากมาย"
 
-#: src/wubi/frontends/win32/cdboot_page.py:32
+#: src/wubi/frontends/win32/cd_finish_page.py:35
+msgid "< Back"
+msgstr "< ย้อนกลับ"
+
+#: src/wubi/frontends/win32/cd_finish_page.py:43
+msgid "Reboot required"
+msgstr "ต้องการเริ่มระบบใหม่"
+
+#: src/wubi/frontends/win32/cd_finish_page.py:45
+msgid ""
+"To start the Live CD you need to reboot your machine leaving the CD in the "
+"tray. If your machine cannot boot from the CD, the last option should work "
+"in most cases."
+msgstr ""
+"เพื่อเริ่มใช้ Live CD คุณจำเป็นต้องเริ่มระบบใหม่โดยปล่อยซีดีไว้ในถาด "
+"ถ้าเครื่องของคุณไม่สามารถบูตจากซีดีได้ ตัวเลือกสุดท้ายควรใช้ได้ในกรณีส่วนใหญ่"
+
+#: src/wubi/frontends/win32/cd_finish_page.py:48
+msgid "I want to manually reboot Later"
+msgstr "ฉันต้องการเริ่มระบบใหม่ด้วยตัวเองในภายหลัง"
+
+#: src/wubi/frontends/win32/cd_finish_page.py:49
+msgid "Help me to boot from CD"
+msgstr "ช่วยฉันบูตจากซีดี"
+
+#: src/wubi/frontends/win32/uninstallation_finish_page.py:41
+msgid "Uninstallation completed"
+msgstr "การถอดถอนสมบูรณ์"
+
+#: src/wubi/frontends/win32/uninstallation_finish_page.py:43
 #, python-format
-msgid "%s CD Boot Helper"
-msgstr "ตัวช่วยบูตซีดี %s"
+msgid "%s has been successfully uninstalled"
+msgstr "%s ถูกถอดถอนสำเร็จ"
 
-#: src/wubi/frontends/win32/cdboot_page.py:43
-msgid "Not enough disk space to proceed"
-msgstr "ไม่มีพื้นที่ดิสก์ว่างพอต่อการดำเนินการ"
-
-#: src/wubi/frontends/win32/cdboot_page.py:54
-msgid "Install CD boot helper"
-msgstr "ติดตั้งตัวช่วยบูตซีดี"
-
-#: src/wubi/frontends/win32/cdboot_page.py:56
-msgid ""
-"If your machine cannot boot off the CD, this program will install a new boot "
-"menu entry to help you boot from CD. In most cases this program is not "
-"needed, and it is sufficient to reboot with the CD-Rom in the tray.\n"
-"\n"
-"Do you want to proceed and install the CD booter?"
-msgstr ""
-"หากเครื่องของคุณไม่สามารถบูตผ่านซีดี "
-"โปรแกรมนี้จะติดตั้งเมนูใหม่เพื่อช่วยคุณบูตจากซีดี "
-"กรณีส่วนใหญ่แล้วโปรแกรมนี้ไม่มีความจำเป็น "
-"และมันเพียงพอแล้วที่จะเริ่มใหม่ด้วยซีดีรอมที่อยู่ในถาด\n"
-"\n"
-"คุณต้องการดำเนินการและติดตั้งตัวบูตซีดี?"
-
-#: src/wubi/application.py:64
+#: src/wubi/frontends/win32/uninstallation_page.py:32
 #, python-format
-msgid ""
-"An error occurred:\n"
-"\n"
-"%(error)s\n"
-"\n"
-"For more information, please see the log file: %(log)s"
-msgstr ""
-"เกิดข้อผิดพลาดขึ้น:\n"
-"\n"
-"%(error)s\n"
-"\n"
-"สำหรับข้อมูลเพิ่มเติม โปรดดูแฟ้มปูม: %(log)s"
+msgid "%s Uninstaller"
+msgstr "ตัวถอดถอน %s"
 
-#: src/wubi/application.py:147 src/wubi/application.py:208
+#: src/wubi/frontends/win32/uninstallation_page.py:36
+msgid "Uninstallation required"
+msgstr "จำเป็นต้องถอดถอน"
+
+#: src/wubi/frontends/win32/uninstallation_page.py:38
 #, python-format
-msgid ""
-"A previous installation was detected in %s.\n"
-"Please uninstall that before continuing."
-msgstr ""
-"ตรวจพบการติดตั้ง %s ครั้งก่อน\n"
-"โปรดถอดถอนมันก่อนดำเนินการต่อ"
+msgid "You are about to uninstall %s"
+msgstr "คุณมีความต้องถอนการติดตั้ง %s"
 
-#: src/wubi/application.py:190
-msgid "No CD detected, cannot run CD menu"
-msgstr "ไม่พบซีดี, ไม่สามารถเรียกใช้เมนูซีดี"
+#: src/wubi/frontends/win32/uninstallation_page.py:45
+msgid "Uninstall"
+msgstr "ถอนการติดตั้ง"
 
-#: src/wubi/application.py:198
+#: src/wubi/frontends/win32/uninstallation_page.py:52
 msgid ""
-"Could not find any valid CD.\n"
-"CD boot helper can only be used with a Live CD."
-msgstr ""
-"ไม่สามารถค้นหาซีดีที่ถูกต้อง\n"
-"ตัวช่วยบูตซีดีใช้ได้กับ Live CD เท่านั้น"
+"A previous installation was detected, it needs to be uninstalled before "
+"continuing"
+msgstr "ค้นพบว่ามีการติดตั้งอยู่ก่อน จำเป็นต้องถอดถอนก่อนดำเนินการต่อ"
+
+#: src/wubi/frontends/win32/uninstallation_page.py:54
+msgid "Are you sure you want to uninstall?"
+msgstr "คุณแน่ใจหรือไม่ที่จะถอดถอน?"
+
+#: src/wubi/frontends/win32/uninstallation_page.py:62
+msgid "Backup the downloaded files (ISO)"
+msgstr "สำรองแฟ้ม (ISO) ที่ดาวน์โหลดแล้ว"

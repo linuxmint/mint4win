@@ -2,7 +2,7 @@
 #
 # Written by Agostino Russo <agostino.russo@gmail.com>
 #
-# This file is part of Wubi the Win32 Linux Mint Installer.
+# This file is part of Wubi the Win32 Ubuntu Installer.
 #
 # Wubi is free software; you can redistribute it and/or modify
 # it under 5the terms of the GNU Lesser General Public License as
@@ -158,6 +158,25 @@ class WindowsBackend(Backend):
         dest = self.info.icon
         log.debug('Copying %s -> %s' % (src, dest))
         shutil.copyfile(src, dest)
+
+    def remove_existing_binary(self):
+        binary = os.path.join(self.get_startup_folder(), 'wubi.exe')
+        if os.path.exists(binary):
+            try:
+                MOVEFILE_DELAY_UNTIL_REBOOT = 4
+                ctypes.windll.kernel32.MoveFileExW(binary, None,
+                        MOVEFILE_DELAY_UNTIL_REBOOT)
+            except (OSError, IOError):
+                log.exception("Couldn't remove Wubi from startup:")
+
+    def get_startup_folder(self):
+        startup_folder = registry.get_value(
+                'HKEY_LOCAL_MACHINE',
+                'SOFTWARE\\Microsoft\\Windows\\CurrentVersion'
+                '\\Explorer\\Shell Folders',
+                'Common Startup')
+        log.debug('startup_folder=%s' % startup_folder)
+        return startup_folder
 
     def get_windows_version2(self):
         windows_version2 = registry.get_value(

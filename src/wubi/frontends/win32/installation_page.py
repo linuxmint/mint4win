@@ -2,7 +2,7 @@
 #
 # Written by Agostino Russo <agostino.russo@gmail.com>
 #
-# This file is part of Wubi the Win32 Linux Mint Installer.
+# This file is part of Wubi the Win32 Ubuntu Installer.
 #
 # Wubi is free software; you can redistribute it and/or modify
 # it under 5the terms of the GNU Lesser General Public License as
@@ -33,8 +33,8 @@ if sys.version.startswith('2.3'):
     from sets import Set as set
 
 reserved_usernames = [unicode(n) for n in reserved_usernames]
-re_first_char_is_letter = re.compile("^[a-zA-Z_]")
-re_only_alphanum = re.compile("[a-z][-a-z0-9]*$")
+re_username_first = re.compile("^[a-z]")
+re_username = re.compile("[a-z][-a-z0-9_]*$")
 
 class InstallationPage(Page):
 
@@ -213,7 +213,7 @@ class InstallationPage(Page):
         self.language_list.on_change = self.on_language_change
 
         username = self.info.host_username.strip().lower()
-        username = re.sub('[^-a-z0-9]', '', username)
+        username = re.sub('[^-a-z0-9_]', '', username)
         picture, label, combo = self.add_controls_block(
             self.main, h*4 + w, h*4,
             "user.bmp", _("Username:"), None)
@@ -315,10 +315,10 @@ class InstallationPage(Page):
             error_message = _("Please use all lower cases in the username.")
         elif " " in username:
             error_message =  _("Please do not use spaces in the username.")
-        elif not re_first_char_is_letter.match(username):
-            error_message =  _("Your username must start with a letter.")
-        elif not re_only_alphanum.match(username):
-            error_message =  _("Your username must contain only standard letters and numbers.")
+        elif not re_username_first.match(username):
+            error_message =  _("Your username must start with a lower-case letter.")
+        elif not re_username.match(username):
+            error_message =  _("Your username must contain only lower-case letters, numbers, hyphens, and underscores.")
         elif username in reserved_usernames:
             error_message = _("The selected username is reserved, please select a different one.")
         elif not password1:

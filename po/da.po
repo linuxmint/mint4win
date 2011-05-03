@@ -8,27 +8,54 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Wubi 277\n"
 "Report-Msgid-Bugs-To: agostino.russo@gmail.com\n"
-"POT-Creation-Date: 2009-11-03 23:48+0000\n"
-"PO-Revision-Date: 2010-04-10 17:32+0000\n"
+"POT-Creation-Date: 2011-04-04 11:04+0100\n"
+"PO-Revision-Date: 2011-03-28 21:02+0000\n"
 "Last-Translator: AJenbo <anders@jenbo.dk>\n"
 "Language-Team: Danish <dansk@dansk-gruppen.dk>\n"
+"Language: da\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Launchpad-Export-Date: 2010-04-18 09:24+0000\n"
-"X-Generator: Launchpad (build Unknown)\n"
+"X-Launchpad-Export-Date: 2011-04-04 10:01+0000\n"
+"X-Generator: Launchpad (build 12710)\n"
 "X-Poedit-Language: Danish\n"
 
-#: src/wubi/backends/win32/backend.py:152
+#: src/wubi/application.py:64
 #, python-format
 msgid ""
-"The installation failed. Logs have been saved in: %s.\n"
+"An error occurred:\n"
 "\n"
-"Note that in verbose mode, the logs may include the password.\n"
+"%(error)s\n"
 "\n"
-"The system will now reboot."
+"For more information, please see the log file: %(log)s"
 msgstr ""
+"Der opstod en fejl:\n"
+"\n"
+"%(error)s\n"
+"\n"
+"Se venligst logfil: %(log)s for mere information"
+
+#: src/wubi/application.py:147 src/wubi/application.py:208
+#, python-format
+msgid ""
+"A previous installation was detected in %s.\n"
+"Please uninstall that before continuing."
+msgstr ""
+"En tidligere installation blev opdaget i %s.\n"
+"Fjern denne før du fortsætter."
+
+#: src/wubi/application.py:190
+msgid "No CD detected, cannot run CD menu"
+msgstr "Ingen cd fundet. Kan ikke køre cd-menuen"
+
+#: src/wubi/application.py:198
+msgid ""
+"Could not find any valid CD.\n"
+"CD boot helper can only be used with a Live CD."
+msgstr ""
+"Kunne ikke finde en gyldig cd.\n"
+"Cd-opstartshjælperen kan kun bruges med en Live-cd."
 
 #: src/wubi/backends/common/tasklist.py:256
 #: src/wubi/backends/common/tasklist.py:260
@@ -50,137 +77,131 @@ msgstr "%imin"
 msgid "%is"
 msgstr "%is"
 
-#: src/wubi/backends/common/downloader.py:66
-#: src/wubi/backends/common/btdownloader.py:36
-#, python-format
-msgid "Downloading %s"
-msgstr "Henter %s"
-
-#: src/wubi/backends/common/backend.py:77
-#: src/wubi/backends/common/backend.py:98
+#: src/wubi/backends/common/backend.py:76
+#: src/wubi/backends/common/backend.py:97
 msgid "Selecting the target directory"
 msgstr "Vælger destinationsmappen"
 
-#: src/wubi/backends/common/backend.py:78
-#: src/wubi/backends/common/backend.py:99
+#: src/wubi/backends/common/backend.py:77
+#: src/wubi/backends/common/backend.py:98
 msgid "Creating the installation directories"
 msgstr "Opretter installationsmapperne"
 
-#: src/wubi/backends/common/backend.py:79
-#: src/wubi/backends/common/backend.py:89
-#: src/wubi/backends/common/backend.py:100
-#: src/wubi/backends/common/backend.py:108
+#: src/wubi/backends/common/backend.py:78
+#: src/wubi/backends/common/backend.py:88
+#: src/wubi/backends/common/backend.py:99
+#: src/wubi/backends/common/backend.py:107
 msgid "Uncompressing files"
 msgstr "Dekomprimerer filer"
 
-#: src/wubi/backends/common/backend.py:80
-#: src/wubi/backends/common/backend.py:101
+#: src/wubi/backends/common/backend.py:79
+#: src/wubi/backends/common/backend.py:100
 msgid "Creating the uninstaller"
 msgstr "Opretter program til fjernelse af installation"
 
-#: src/wubi/backends/common/backend.py:81
-#: src/wubi/backends/common/backend.py:102
-#: src/wubi/backends/common/backend.py:425
-#: src/wubi/backends/common/backend.py:431
+#: src/wubi/backends/common/backend.py:80
+#: src/wubi/backends/common/backend.py:101
+#: src/wubi/backends/common/backend.py:424
+#: src/wubi/backends/common/backend.py:430
 msgid "Copying installation files"
 msgstr "Kopierer installationsfiler"
 
-#: src/wubi/backends/common/backend.py:82
+#: src/wubi/backends/common/backend.py:81
 msgid "Retrieving installation files"
 msgstr "Henter installationsfiler"
 
-#: src/wubi/backends/common/backend.py:83
-#: src/wubi/backends/common/backend.py:104
+#: src/wubi/backends/common/backend.py:82
+#: src/wubi/backends/common/backend.py:103
 msgid "Extracting the kernel"
 msgstr "Udpakker kernen"
 
-#: src/wubi/backends/common/backend.py:84
+#: src/wubi/backends/common/backend.py:83
 msgid "Choosing disk sizes"
 msgstr "Vælger diskstørrelser"
 
-#: src/wubi/backends/common/backend.py:85
-#: src/wubi/backends/common/backend.py:105
+#: src/wubi/backends/common/backend.py:84
+#: src/wubi/backends/common/backend.py:104
 msgid "Creating a preseed file"
 msgstr "Opretter en forsået (preseed) fil"
 
-#: src/wubi/backends/common/backend.py:86
-#: src/wubi/backends/common/backend.py:106
+#: src/wubi/backends/common/backend.py:85
+#: src/wubi/backends/common/backend.py:105
 msgid "Adding a new bootloader entry"
 msgstr "Tilføjer en ny indgang til opstartindlæser"
 
-#: src/wubi/backends/common/backend.py:87
-#: src/wubi/backends/common/backend.py:107
+#: src/wubi/backends/common/backend.py:86
+#: src/wubi/backends/common/backend.py:106
 msgid "Setting up installation boot menu"
 msgstr "Opsætter opstartsmenu til installation"
 
-#: src/wubi/backends/common/backend.py:88
+#: src/wubi/backends/common/backend.py:87
 msgid "Creating the virtual disks"
 msgstr "Opretter virtuelle diske"
 
-#: src/wubi/backends/common/backend.py:90
-#: src/wubi/backends/common/backend.py:109
+#: src/wubi/backends/common/backend.py:89
+#: src/wubi/backends/common/backend.py:108
 msgid "Ejecting the CD"
 msgstr "Skubber cd'en ud"
 
-#: src/wubi/backends/common/backend.py:92
+#: src/wubi/backends/common/backend.py:91
 #: src/wubi/frontends/win32/progress_page.py:39
 #, python-format
 msgid "Installing %(distro)s-%(version)s"
 msgstr "Installerer %(distro)s-%(version)s"
 
-#: src/wubi/backends/common/backend.py:103
+#: src/wubi/backends/common/backend.py:102
 msgid "Extracting CD content"
 msgstr "Udpakker cd-indhold"
 
-#: src/wubi/backends/common/backend.py:111
+#: src/wubi/backends/common/backend.py:110
 msgid "Installing CD boot helper"
 msgstr "Installerer cd-opstartshjælper"
 
-#: src/wubi/backends/common/backend.py:116
-#: src/wubi/backends/common/backend.py:118
+#: src/wubi/backends/common/backend.py:115
+#: src/wubi/backends/common/backend.py:117
 msgid "Rebooting"
 msgstr "Genstarter"
 
-#: src/wubi/backends/common/backend.py:123
+#: src/wubi/backends/common/backend.py:122
 msgid "Backup ISO"
 msgstr "Opretter sikkerhedskopi af ISO"
 
-#: src/wubi/backends/common/backend.py:124
+#: src/wubi/backends/common/backend.py:123
 msgid "Remove bootloader entry"
 msgstr "Fjern indgang fra opstartsindlæser"
 
-#: src/wubi/backends/common/backend.py:125
+#: src/wubi/backends/common/backend.py:124
 msgid "Remove target dir"
 msgstr "Fjern destinationsmappe"
 
-#: src/wubi/backends/common/backend.py:126
+#: src/wubi/backends/common/backend.py:125
 msgid "Remove registry key"
 msgstr "Fjern registreringsnøglen"
 
-#: src/wubi/backends/common/backend.py:127
+#: src/wubi/backends/common/backend.py:126
 #, python-format
 msgid "Uninstalling %s"
 msgstr "Afinstallerer %s"
 
-#: src/wubi/backends/common/backend.py:258
+#: src/wubi/backends/common/backend.py:257
 #, python-format
 msgid "Checking CD %s"
 msgstr "Kontrollerer cd %s"
 
-#: src/wubi/backends/common/backend.py:284
-#: src/wubi/backends/common/backend.py:328
-#: src/wubi/backends/common/backend.py:364
+#: src/wubi/backends/common/backend.py:283
+#: src/wubi/backends/common/backend.py:327
+#: src/wubi/backends/common/backend.py:363
 msgid "Downloading information on installation files"
 msgstr "Henter oplysninger om installationsfiler"
 
-#: src/wubi/backends/common/backend.py:299
-#: src/wubi/backends/common/backend.py:356
-#: src/wubi/backends/common/backend.py:419
+#: src/wubi/backends/common/backend.py:298
+#: src/wubi/backends/common/backend.py:355
+#: src/wubi/backends/common/backend.py:418
 #: src/wubi/backends/common/backend.py:468
 msgid "Checking installation files"
 msgstr "Kontrollerer installationsfiler"
 
-#: src/wubi/backends/common/backend.py:390
+#: src/wubi/backends/common/backend.py:389
 #, python-format
 msgid "Validating %s"
 msgstr "Validerer %s"
@@ -195,68 +216,75 @@ msgstr "Udpakker filer fra %s"
 msgid "Checking %s"
 msgstr "Kontrollerer %s"
 
-#: src/wubi/frontends/win32/frontend.py:51
-msgid "Are you sure you want to quit?"
-msgstr "Er du sikker på, at du vil afslutte?"
-
-#: src/wubi/frontends/win32/uninstallation_finish_page.py:35
-#: src/wubi/frontends/win32/installation_finish_page.py:35
-#: src/wubi/frontends/win32/cd_finish_page.py:35
-msgid "Finish"
-msgstr "Afslut"
-
-#: src/wubi/frontends/win32/uninstallation_finish_page.py:41
-msgid "Uninstallation completed"
-msgstr "Fjernelse af installation er fuldført"
-
-#: src/wubi/frontends/win32/uninstallation_finish_page.py:43
+#: src/wubi/backends/common/downloader.py:65
+#: src/wubi/backends/common/btdownloader.py:36
 #, python-format
-msgid "%s has been successfully uninstalled"
-msgstr "%s er blevet fjernet problemfrit"
+msgid "Downloading %s"
+msgstr "Henter %s"
 
-#: src/wubi/frontends/win32/uninstallation_page.py:32
+#: src/wubi/backends/win32/backend.py:150
 #, python-format
-msgid "%s Uninstaller"
-msgstr "%s installationsfjernelse"
+msgid ""
+"The installation failed. Logs have been saved in: %s.\n"
+"\n"
+"Note that in verbose mode, the logs may include the password.\n"
+"\n"
+"The system will now reboot."
+msgstr ""
+"Installationen mislykkedes. Der er blevet gemt logge i: %s.\n"
+"\n"
+"Vær opmærksom på at i uddybende tilstand, kan loggene indeholde "
+"adgangskoden.\n"
+"\n"
+"Systemet vil nu genstarte."
 
-#: src/wubi/frontends/win32/uninstallation_page.py:36
-msgid "Uninstallation required"
-msgstr "Fjernelse af installation er påkrævet"
-
-#: src/wubi/frontends/win32/uninstallation_page.py:38
+#: src/wubi/frontends/win32/cdboot_page.py:32
 #, python-format
-msgid "You are about to uninstall %s"
-msgstr "Du er ved at fjerne %s"
+msgid "%s CD Boot Helper"
+msgstr "%s cd-opstartshjælper"
 
-#: src/wubi/frontends/win32/uninstallation_page.py:45
-msgid "Uninstall"
-msgstr "Afinstallér"
+#: src/wubi/frontends/win32/cdboot_page.py:43
+msgid "Not enough disk space to proceed"
+msgstr "Ikke nok diskplads til at fortsætte"
 
-#: src/wubi/frontends/win32/uninstallation_page.py:45
+#: src/wubi/frontends/win32/cdboot_page.py:46
+#: src/wubi/frontends/win32/installation_page.py:181
+msgid "Accessibility"
+msgstr "Tilgængelighed"
+
+#: src/wubi/frontends/win32/cdboot_page.py:46
+#: src/wubi/frontends/win32/installation_page.py:181
+msgid "Install"
+msgstr "Installér"
+
+#: src/wubi/frontends/win32/cdboot_page.py:46
 #: src/wubi/frontends/win32/installation_page.py:181
 #: src/wubi/frontends/win32/progress_page.py:44
-#: src/wubi/frontends/win32/cd_finish_page.py:35
 #: src/wubi/frontends/win32/accessibility_page.py:39
 #: src/wubi/frontends/win32/cd_menu_page.py:38
-#: src/wubi/frontends/win32/cdboot_page.py:46
+#: src/wubi/frontends/win32/cd_finish_page.py:35
+#: src/wubi/frontends/win32/uninstallation_page.py:45
 msgid "Cancel"
 msgstr "Annullér"
 
-#: src/wubi/frontends/win32/uninstallation_page.py:52
+#: src/wubi/frontends/win32/cdboot_page.py:54
+msgid "Install CD boot helper"
+msgstr "Installer cd-opstartshjælper"
+
+#: src/wubi/frontends/win32/cdboot_page.py:56
 msgid ""
-"A previous installation was detected, it needs to be uninstalled before "
-"continuing"
+"If your machine cannot boot off the CD, this program will install a new boot "
+"menu entry to help you boot from CD. In most cases this program is not "
+"needed, and it is sufficient to reboot with the CD-Rom in the tray.\n"
+"\n"
+"Do you want to proceed and install the CD booter?"
 msgstr ""
-"En tidligere installation blev opdaget, den skal fjernes, før du kan "
-"fortsætter"
-
-#: src/wubi/frontends/win32/uninstallation_page.py:54
-msgid "Are you sure you want to uninstall?"
-msgstr "Er du sikker på at du vil fjerne installationen?"
-
-#: src/wubi/frontends/win32/uninstallation_page.py:62
-msgid "Backup the downloaded files (ISO)"
-msgstr "Opret sikkerhedskopi af de hentede filer (ISO)"
+"Hvis din maskine ikke kan starte op fra cd'en, vil dette program installere "
+"et nyt punkt i din opstartsmenu, for at hjælpe dig med at starte op fra "
+"cd'en. I de fleste tilfælde behøves dette program ikke, og det er nok blot "
+"at genstarte med cd-rom'en i drevet.\n"
+"\n"
+"Ønsker du at fortsætte og installere en cd-booter?"
 
 #: src/wubi/frontends/win32/installation_page.py:73
 #, python-format
@@ -288,16 +316,6 @@ msgstr "(%sGB ledig)"
 #: src/wubi/frontends/win32/installation_page.py:177
 msgid "Please select username and password for the new account"
 msgstr "Vælg venligst brugernavn og adgangskode til den nye konto"
-
-#: src/wubi/frontends/win32/installation_page.py:181
-#: src/wubi/frontends/win32/cdboot_page.py:46
-msgid "Accessibility"
-msgstr "Tilgængelighed"
-
-#: src/wubi/frontends/win32/installation_page.py:181
-#: src/wubi/frontends/win32/cdboot_page.py:46
-msgid "Install"
-msgstr "Installér"
 
 #: src/wubi/frontends/win32/installation_page.py:193
 msgid "Installation drive:"
@@ -359,12 +377,16 @@ msgid "Please do not use spaces in the username."
 msgstr "Brug venligst ikke mellemrum i brugernavnet."
 
 #: src/wubi/frontends/win32/installation_page.py:319
-msgid "Your username must start with a letter."
-msgstr "Dit brugernavn skal starte med et bogstav."
+msgid "Your username must start with a lower-case letter."
+msgstr "Dit brugernavn skal starte med et lille bogstav."
 
 #: src/wubi/frontends/win32/installation_page.py:321
-msgid "Your username must contain only standard letters and numbers."
-msgstr "Dit brugernavn må kun bestå af almindelige bogstaver og tal."
+msgid ""
+"Your username must contain only lower-case letters, numbers, hyphens, and "
+"underscores."
+msgstr ""
+"Dit brugernavn må kun indeholde små bogstaver, numre, tankestreger og "
+"understreger."
 
 #: src/wubi/frontends/win32/installation_page.py:323
 msgid "The selected username is reserved, please select a different one."
@@ -372,15 +394,15 @@ msgstr "Det valgte brugernavn er reserveret. Du skal vælge et andet."
 
 #: src/wubi/frontends/win32/installation_page.py:325
 msgid "Please enter a valid password."
-msgstr "Indtast venligst et gyldigt kodeord."
+msgstr "Indtast venligst en gyldigt adgangskode."
 
 #: src/wubi/frontends/win32/installation_page.py:327
 msgid "Please do not use spaces in the password."
-msgstr "Brug venligst ikke mellemrum i kodeordet."
+msgstr "Brug venligst ikke mellemrum i adgangskoden."
 
 #: src/wubi/frontends/win32/installation_page.py:329
 msgid "Passwords do not match."
-msgstr "Kodeorderne er ikke ens."
+msgstr "Adgangskoderne er ikke ens."
 
 #: src/wubi/frontends/win32/progress_page.py:40
 msgid "Please wait"
@@ -397,50 +419,9 @@ msgid_plural "Remaining time approximately %s"
 msgstr[0] "Resterende tid cirka %s"
 msgstr[1] "Resterende tid cirka %s"
 
-#: src/wubi/frontends/win32/installation_finish_page.py:41
-#, python-format
-msgid "Completing the %s Setup Wizard"
-msgstr "Afslutter %s-opsætningsguiden"
-
-#: src/wubi/frontends/win32/installation_finish_page.py:43
-msgid "You need to reboot to complete the installation"
-msgstr ""
-"Du er nødt til at genstarte computeren for at fuldføre installationen"
-
-#: src/wubi/frontends/win32/installation_finish_page.py:44
-#: src/wubi/frontends/win32/cd_finish_page.py:47
-msgid "Reboot now"
-msgstr "Genstart nu"
-
-#: src/wubi/frontends/win32/installation_finish_page.py:45
-msgid "I want to manually reboot later"
-msgstr "Jeg vil genstarte manuelt senere"
-
-#: src/wubi/frontends/win32/cd_finish_page.py:35
-msgid "< Back"
-msgstr "< Tillbage"
-
-#: src/wubi/frontends/win32/cd_finish_page.py:43
-msgid "Reboot required"
-msgstr "Genstart kræves"
-
-#: src/wubi/frontends/win32/cd_finish_page.py:45
-msgid ""
-"To start the Live CD you need to reboot your machine leaving the CD in the "
-"tray. If your machine cannot boot from the CD, the last option should work "
-"in most cases."
-msgstr ""
-"For at starte live-cd'en er du nødt til at genstarte din maskine med cd'en i "
-"drevet. Hvis din maskine ikke kan starte fra cd'en, bør den sidste "
-"valgmulighed fungere i de fleste tilfælde."
-
-#: src/wubi/frontends/win32/cd_finish_page.py:48
-msgid "I want to manually reboot Later"
-msgstr "Jeg vil genstarte manuelt senere"
-
-#: src/wubi/frontends/win32/cd_finish_page.py:49
-msgid "Help me to boot from CD"
-msgstr "Hjælp mig med at starte fra cd"
+#: src/wubi/frontends/win32/frontend.py:51
+msgid "Are you sure you want to quit?"
+msgstr "Er du sikker på, at du vil afslutte?"
 
 #: src/wubi/frontends/win32/accessibility_page.py:34
 msgid "Accessibility profile"
@@ -489,6 +470,30 @@ msgstr "Mobilitet2"
 #: src/wubi/frontends/win32/accessibility_page.py:62
 msgid "None"
 msgstr "Ingen"
+
+#: src/wubi/frontends/win32/installation_finish_page.py:35
+#: src/wubi/frontends/win32/cd_finish_page.py:35
+#: src/wubi/frontends/win32/uninstallation_finish_page.py:35
+msgid "Finish"
+msgstr "Afslut"
+
+#: src/wubi/frontends/win32/installation_finish_page.py:41
+#, python-format
+msgid "Completing the %s Setup Wizard"
+msgstr "Afslutter %s-opsætningsguiden"
+
+#: src/wubi/frontends/win32/installation_finish_page.py:43
+msgid "You need to reboot to complete the installation"
+msgstr "Du er nødt til at genstarte computeren for at fuldføre installationen"
+
+#: src/wubi/frontends/win32/installation_finish_page.py:44
+#: src/wubi/frontends/win32/cd_finish_page.py:47
+msgid "Reboot now"
+msgstr "Genstart nu"
+
+#: src/wubi/frontends/win32/installation_finish_page.py:45
+msgid "I want to manually reboot later"
+msgstr "Jeg vil genstarte manuelt senere"
 
 #: src/wubi/frontends/win32/cd_menu_page.py:34
 #, python-format
@@ -542,66 +547,71 @@ msgstr ""
 "%(distro)s er et fri, fællesskabsudviklet, linux-baseret operativsystem, "
 "komplet med en webbrowser, kontorprogrammer, chat og meget mere."
 
-#: src/wubi/frontends/win32/cdboot_page.py:32
+#: src/wubi/frontends/win32/cd_finish_page.py:35
+msgid "< Back"
+msgstr "< Tillbage"
+
+#: src/wubi/frontends/win32/cd_finish_page.py:43
+msgid "Reboot required"
+msgstr "Genstart kræves"
+
+#: src/wubi/frontends/win32/cd_finish_page.py:45
+msgid ""
+"To start the Live CD you need to reboot your machine leaving the CD in the "
+"tray. If your machine cannot boot from the CD, the last option should work "
+"in most cases."
+msgstr ""
+"For at starte live-cd'en er du nødt til at genstarte din maskine med cd'en i "
+"drevet. Hvis din maskine ikke kan starte fra cd'en, bør den sidste "
+"valgmulighed fungere i de fleste tilfælde."
+
+#: src/wubi/frontends/win32/cd_finish_page.py:48
+msgid "I want to manually reboot Later"
+msgstr "Jeg vil genstarte manuelt senere"
+
+#: src/wubi/frontends/win32/cd_finish_page.py:49
+msgid "Help me to boot from CD"
+msgstr "Hjælp mig med at starte fra cd"
+
+#: src/wubi/frontends/win32/uninstallation_finish_page.py:41
+msgid "Uninstallation completed"
+msgstr "Fjernelse af installation er fuldført"
+
+#: src/wubi/frontends/win32/uninstallation_finish_page.py:43
 #, python-format
-msgid "%s CD Boot Helper"
-msgstr "%s cd-opstartshjælper"
+msgid "%s has been successfully uninstalled"
+msgstr "%s er blevet fjernet problemfrit"
 
-#: src/wubi/frontends/win32/cdboot_page.py:43
-msgid "Not enough disk space to proceed"
-msgstr "Ikke nok diskplads til at fortsætte"
-
-#: src/wubi/frontends/win32/cdboot_page.py:54
-msgid "Install CD boot helper"
-msgstr "Installer cd-opstartshjælper"
-
-#: src/wubi/frontends/win32/cdboot_page.py:56
-msgid ""
-"If your machine cannot boot off the CD, this program will install a new boot "
-"menu entry to help you boot from CD. In most cases this program is not "
-"needed, and it is sufficient to reboot with the CD-Rom in the tray.\n"
-"\n"
-"Do you want to proceed and install the CD booter?"
-msgstr ""
-"Hvis din maskine ikke kan starte op fra cd'en, vil dette program installere "
-"et nyt punkt i din opstartsmenu, for at hjælpe dig med at starte op fra "
-"cd'en. I de fleste tilfælde behøves dette program ikke, og det er nok blot "
-"at genstarte med cd-rom'en i drevet.\n"
-"\n"
-"Ønsker du at fortsætte og installere en cd-booter?"
-
-#: src/wubi/application.py:64
+#: src/wubi/frontends/win32/uninstallation_page.py:32
 #, python-format
-msgid ""
-"An error occurred:\n"
-"\n"
-"%(error)s\n"
-"\n"
-"For more information, please see the log file: %(log)s"
-msgstr ""
-"Der opstod en fejl:\n"
-"\n"
-"%(error)s\n"
-"\n"
-"Se venligst logfil: %(log)s for mere information"
+msgid "%s Uninstaller"
+msgstr "%s installationsfjernelse"
 
-#: src/wubi/application.py:147 src/wubi/application.py:208
+#: src/wubi/frontends/win32/uninstallation_page.py:36
+msgid "Uninstallation required"
+msgstr "Fjernelse af installation er påkrævet"
+
+#: src/wubi/frontends/win32/uninstallation_page.py:38
 #, python-format
-msgid ""
-"A previous installation was detected in %s.\n"
-"Please uninstall that before continuing."
-msgstr ""
-"En tidligere installation blev opdaget i %s.\n"
-"Fjern denne før du fortsætter."
+msgid "You are about to uninstall %s"
+msgstr "Du er ved at fjerne %s"
 
-#: src/wubi/application.py:190
-msgid "No CD detected, cannot run CD menu"
-msgstr "Ingen cd fundet. Kan ikke køre cd-menuen"
+#: src/wubi/frontends/win32/uninstallation_page.py:45
+msgid "Uninstall"
+msgstr "Afinstallér"
 
-#: src/wubi/application.py:198
+#: src/wubi/frontends/win32/uninstallation_page.py:52
 msgid ""
-"Could not find any valid CD.\n"
-"CD boot helper can only be used with a Live CD."
+"A previous installation was detected, it needs to be uninstalled before "
+"continuing"
 msgstr ""
-"Kunne ikke finde en gyldig cd.\n"
-"Cd-opstartshjælperen kan kun bruges med en Live-cd."
+"En tidligere installation blev opdaget, den skal fjernes, før du kan "
+"fortsætter"
+
+#: src/wubi/frontends/win32/uninstallation_page.py:54
+msgid "Are you sure you want to uninstall?"
+msgstr "Er du sikker på at du vil fjerne installationen?"
+
+#: src/wubi/frontends/win32/uninstallation_page.py:62
+msgid "Backup the downloaded files (ISO)"
+msgstr "Opret sikkerhedskopi af de hentede filer (ISO)"
