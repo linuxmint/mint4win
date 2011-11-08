@@ -25,6 +25,7 @@ from optparse import OptionParser
 #TBD import modules as required at runtime
 from wubi.backends.win32 import WindowsBackend
 from wubi.frontends.win32 import WindowsFrontend
+from wubi import errors
 import logging
 log = logging.getLogger("")
 
@@ -156,7 +157,8 @@ class Wubi(object):
         log.info("Received settings")
         self.frontend.run_tasks(self.backend.get_installation_tasklist())
         log.info("Almost finished installing")
-        self.frontend.show_installation_finish_page()
+        if not self.info.non_interactive:
+            self.frontend.show_installation_finish_page()
         log.info("Finished installation")
         if self.info.run_task == "reboot":
             self.reboot()
@@ -175,9 +177,17 @@ class Wubi(object):
         self.frontend = self.get_frontend()
         self.frontend.show_uninstallation_settings()
         log.info("Received settings")
-        self.frontend.run_tasks(self.backend.get_uninstallation_tasklist())
+        try:
+            self.frontend.run_tasks(self.backend.get_uninstallation_tasklist())
+        except errors.WubiCorruptionError:
+            # TODO we should present a reboot button along with this.
+            err = _("Files on your computer are corrupted. A disk check has "
+                    "been scheduled and will be performed at the next boot. "
+                    "Please reboot your computer now.")
+            self.frontend.show_error_message(err)
+            self.quit()
         log.info("Almost finished uninstalling")
-        if not self.info.uninstall_before_install:
+        if not self.info.uninstall_before_install and not self.info.non_interactive:
             self.frontend.show_uninstallation_finish_page()
         log.info("Finished uninstallation")
 
@@ -252,7 +262,7 @@ class Wubi(object):
         parser.add_option("--test", action="store_true", dest="test", help="Test mode")
         parser.add_option("--debug", action="store_true", dest="debug", help="Debug mode")
         parser.add_option("--drive", dest="target_drive", help="Target drive")
-        parser.add_option("--size", dest="installation_size_mb", help="Installation size in MB")
+        parser.add_option("--size", type="int", dest="installation_size_mb", help="Installation size in MB")
         parser.add_option("--locale", dest="locale", help="Linux locale")
         parser.add_option("--force-wubi", action="store_true", dest="force_wubi", help="Show Wubi option in CD menu even when using a DVD")
         parser.add_option("--language", dest="language", help="Language")
@@ -262,6 +272,7 @@ class Wubi(object):
         parser.add_option("--accessibility", dest="accessibility", help="Accessibility")
         parser.add_option("--webproxy", dest="web_proxy", help="Web proxy")
         parser.add_option("--isopath", dest="iso_path", help="Use specified ISO")
+        parser.add_option("--dimagepath", dest="dimage_path", help="Use specified disk image")
         parser.add_option("--exefile", dest="original_exe", default=None, help="Used to indicate the original location of the executable in case of self-extracting files")
         parser.add_option("--log-file", dest="log_file", default=None, help="use the specified log file, if omitted a log is created in your temp directory, if the value is set to 'none' no log is created")
         parser.add_option("--interface", dest="use_frontend", default=None, help="use the specified user interface, ['win32']")

@@ -29,12 +29,13 @@ from eject import eject_cd
 import registry
 from memory import get_total_memory_mb
 from wubi.backends.common.backend import Backend
-from wubi.backends.common.utils import run_command, replace_line_in_file, read_file, write_file, join_path, remove_line_in_file
+from wubi.backends.common.utils import run_command, spawn_command, replace_line_in_file, read_file, write_file, join_path, remove_line_in_file
 from wubi.backends.common.mappings import country2tz, name2country, gmt2country, country_gmt2tz, gmt2tz
 from os.path import abspath, isfile, isdir
 import mappings
 import shutil
 import logging
+import tempfile
 log = logging.getLogger('WindowsBackend')
 
 
@@ -76,7 +77,6 @@ class WindowsBackend(Backend):
         target_dir = join_path(self.info.target_drive.path, self.info.distro.installation_dir)
         target_dir.replace(' ', '_')
         target_dir.replace('__', '_')
-        gold_target_dir = target_dir
         if os.path.exists(target_dir):
             raise Exception("Cannot install into %s.\nThere is another file or directory with this name.\nPlease remove it before continuing." % target_dir)
         self.info.target_dir = target_dir
@@ -252,7 +252,6 @@ class WindowsBackend(Backend):
         eject_cd(self.info.cd_path)
 
     def get_windows_version(self):
-        windows_version = None
         full_version = sys.getwindowsversion()
         major, minor, build, platform, txt = full_version
         #platform.platform(), platform.system(), platform.release(), platform.version()
@@ -424,12 +423,63 @@ class WindowsBackend(Backend):
                 raise Exception('Cannot overwrite %s' % output_file)
         command = [self.info.iso_extractor, 'e', '-i!' + file_path, '-o' + output_dir, iso_path]
         try:
-            output = run_command(command)
+            run_command(command)
         except Exception, err:
             log.exception(err)
             output_file = None
         if output_file and isfile(output_file):
             return output_file
+
+    def extract_diskimage(self, associated_task=None):
+        # TODO: try to pipe download stream into this.
+        sevenzip = self.info.iso_extractor
+        xz = self.dimage_path
+        tarball = os.path.basename(self.dimage_path).strip('.xz')
+        # 7-zip needs 7z.dll to read the xz format.
+        dec_xz = [sevenzip, 'e', '-i!' + tarball, '-so', xz]
+        dec_tar = [sevenzip, 'e', '-si', '-ttar', '-o' + self.info.disks_dir]
+        dec_xz_subp = spawn_command(dec_xz)
+        dec_tar_subp = spawn_command(dec_tar, stdin=dec_xz_subp.stdout)
+        dec_xz_subp.stdout.close()
+        dec_tar_subp.communicate()
+        if dec_tar_subp.returncode != 0:
+            raise Exception, ('Extraction failed with code: %d' %
+                              dec_tar_subp.returncode)
+        # TODO: Checksum: http://tukaani.org/xz/xz-file-format.txt
+        # Only remove downloaded image
+        if not self.info.dimage_path:
+            os.remove(xz)
+
+    def expand_diskimage(self, associated_task=None):
+        # TODO: might use -p to get percentage to feed into progress.
+        root = join_path(self.info.disks_dir, 'root.disk')
+        resize2fs = join_path(self.info.bin_dir, 'resize2fs.exe')
+        resize_cmd = [resize2fs, '-f', root,
+                      '%dM' % self.info.root_size_mb]
+        run_command(resize_cmd)
+
+    def create_swap_diskimage(self, associated_task=None):
+        path = join_path(self.info.disks_dir, 'swap.disk')
+        # fsutil works in bytes.
+        swap_size = '%d' % (self.info.swap_size_mb * 1024 * 1024)
+        create_cmd = ['fsutil', 'file', 'createnew', path, swap_size]
+        run_command(create_cmd)
+
+    def diskimage_bootloader(self, associated_task=None):
+        src = join_path(self.info.root_dir, 'winboot')
+        dest = join_path(self.info.target_dir, 'winboot')
+        if isdir(src):
+            log.debug('Copying %s -> %s' % (src, dest))
+            shutil.copytree(src, dest)
+        src = join_path(self.info.disks_dir, 'wubildr')
+        shutil.copyfile(src, join_path(dest, 'wubildr'))
+        # Overwrite the copy that's in root_dir.
+        for drive in self.info.drives:
+            if drive.type not in ('removable', 'hd'):
+                continue
+            dest = join_path(drive.path, 'wubildr')
+            shutil.copyfile(src, dest)
+        os.unlink(src)
 
     def get_usb_search_paths(self):
         '''
@@ -443,31 +493,10 @@ class WindowsBackend(Backend):
         '''
         paths = []
         paths += [os.path.dirname(self.info.original_exe)]
-        paths += [self.info.backup_dir]
         paths += [drive.path for drive in self.info.drives]
         paths += [os.environ.get('Desktop', None)]
         paths = [abspath(p) for p in paths if p and os.path.isdir(p)]
         return paths
-
-    def backup_iso(self, associated_task=None):
-        if not self.info.backup_iso:
-            return
-        backup_dir = self.info.previous_target_dir + "-backup"
-        install_dir = join_path(self.info.previous_target_dir, "install")
-        for f in os.listdir(install_dir):
-            f = join_path(install_dir, f)
-            if f.endswith('.iso') \
-            and os.path.isfile(f) \
-            and os.path.getsize(f) > 1000000:
-                log.debug("Backing up %s -> %s" % (f, backup_dir))
-                if not isdir(backup_dir):
-                    if isfile(backup_dir):
-                        log.error("The backup directory %s is a file, skipping ISO backup" % backup_dir)
-                        #TBD do something more sensible
-                        return
-                    os.mkdir(backup_dir)
-                target_path = join_path(backup_dir, os.path.basename(f))
-                shutil.move(f, target_path)
 
     def get_cd_search_paths(self):
         return [drive.path for drive in self.info.drives] # if drive.type == 'cd']
@@ -486,9 +515,22 @@ class WindowsBackend(Backend):
             log.debug('command >>%s' % ' '.join(command))
             output = None
         if not output: return []
+
         lines = output.split(os.linesep)
-        if lines < 10: return []
-        lines = lines[7:-3]
+        start = None
+        new_lines = []
+        for line in lines:
+            if line.startswith('---'):
+                if start is None:
+                    start = True
+                else:
+                    break
+            elif start:
+                new_lines.append(line)
+        if not new_lines:
+            return []
+        lines = new_lines
+
         file_info = [line.split() for line in lines]
         file_names = [os.path.normpath(x[-1]) for x in file_info]
         self.cache[iso_path] = file_names
@@ -649,6 +691,7 @@ class WindowsBackend(Backend):
         run_command([bcdedit, '/set', id, 'path', mbr_path])
         run_command([bcdedit, '/displayorder', id, '/addlast'])
         run_command([bcdedit, '/timeout', '10'])
+        run_command([bcdedit, '/bootsequence', id])
         registry.set_value(
             'HKEY_LOCAL_MACHINE',
             self.info.registry_key,

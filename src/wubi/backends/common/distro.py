@@ -37,7 +37,8 @@ class Distro(object):
             packages, size, md5sums, files_to_check,
             metalink_md5sums, metalink_md5sums_signature,
             backend, ordering, website, support, min_disk_space_mb,
-            min_memory_mb, installation_dir, min_iso_size=0, max_iso_size=0):
+            min_memory_mb, installation_dir, diskimage=None, diskimage2=None,
+            min_iso_size=0, max_iso_size=0):
         self.name = name
         self.version = version
         self.arch = arch
@@ -61,6 +62,8 @@ class Distro(object):
         self.website = website
         self.support = support
         self.installation_dir = installation_dir
+        self.diskimage = diskimage
+        self.diskimage2 = diskimage2
 
         if isinstance(files_to_check, basestring):
             files_to_check = [
@@ -86,6 +89,19 @@ class Distro(object):
             return True
         else:
             return False
+
+    def is_valid_dimage(self, dimage_path, check_arch):
+        '''
+        Validate a disk image
+
+        TBD: Add more checks
+        '''
+        dimage_path = os.path.abspath(dimage_path)
+        log.debug('  checking %s diskimage %s' % (self.name, dimage_path))
+        if not os.path.isfile(dimage_path):
+            log.debug('    file does not exist')
+            return False
+        return True
 
     def is_valid_iso(self, iso_path, check_arch):
         iso_path = os.path.abspath(iso_path)

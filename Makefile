@@ -7,7 +7,7 @@ COPYRIGHTYEAR = 2009
 AUTHOR = Agostino Russo
 EMAIL = agostino.russo@gmail.com
 
-all: build
+all: build check
 
 build: wubi
 
@@ -29,7 +29,7 @@ wubi-pre-build: check_wine pylauncher winboot2 src/main.py src/wubi/*.py cpuid v
 	cp build/cpuid/cpuid.dll build/bin
 
 pot:
-	xgettext --default-domain="$(PACKAGE)" --output="po/$(PACKAGE).pot" $(shell find src/wubi -name "*.py")
+	xgettext --default-domain="$(PACKAGE)" --output="po/$(PACKAGE).pot" $(shell find src/wubi -name "*.py" | sort)
 	sed -i 's/SOME DESCRIPTIVE TITLE/Translation template for $(PACKAGE)/' po/$(PACKAGE).pot
 	sed -i "s/YEAR THE PACKAGE'S COPYRIGHT HOLDER/$(COPYRIGHTYEAR)/" po/$(PACKAGE).pot
 	sed -i 's/FIRST AUTHOR <EMAIL@ADDRESS>, YEAR/$(AUTHOR) <$(EMAIL)>, $(COPYRIGHTYEAR)/' po/$(PACKAGE).pot
@@ -71,14 +71,15 @@ cpuid: src/cpuid/cpuid.c
 	cp -rf src/cpuid build
 	cd build/cpuid; make
 
-winboot2: grubutil
+winboot2:
 	mkdir -p build/winboot
 	cp -f data/wubildr.cfg data/wubildr-bootstrap.cfg build/winboot/
-	./build/grubutil/grubinst/grubinst --grub2 --boot-file=wubildr -o build/winboot/wubildr.mbr
+	grub-ntldr-img --grub2 --boot-file=wubildr -o build/winboot/wubildr.mbr
 	cd build/winboot && tar cf wubildr.tar wubildr.cfg
+	mkdir -p build/grubutil
 	grub-mkimage -O i386-pc -c build/winboot/wubildr-bootstrap.cfg -m build/winboot/wubildr.tar -o build/grubutil/core.img \
 		loadenv biosdisk part_msdos part_gpt fat ntfs ext2 ntfscomp iso9660 loopback search linux boot minicmd cat cpuid chain halt help ls reboot \
-		echo test configfile normal sleep memdisk tar font gfxterm gettext true vbe vga video_bochs video_cirrus
+		echo test configfile gzio normal sleep memdisk tar font gfxterm gettext true vbe vga video_bochs video_cirrus probe
 	cat /usr/lib/grub/i386-pc/lnxboot.img build/grubutil/core.img > build/winboot/wubildr
 
 winboot: grub4dos grubutil
@@ -112,6 +113,9 @@ check_wine: tools/check_wine
 
 unittest:
 	tools/pywine tools/test
+
+check: wubi
+	tests/run
 
 runpy:
 	PYTHONPATH=src tools/pywine src/main.py --test

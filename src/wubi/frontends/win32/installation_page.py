@@ -23,14 +23,10 @@ from page import Page
 from wubi.backends.common.mappings import reserved_usernames, lang_country2linux_locale, language2lang_country, lang_country2language
 import os
 import logging
-import sys
 import re
-import md5
 import gettext
 
 log = logging.getLogger("WinuiInstallationPage")
-if sys.version.startswith('2.3'):
-    from sets import Set as set
 
 reserved_usernames = [unicode(n) for n in reserved_usernames]
 re_username_first = re.compile("^[a-z]")
@@ -86,6 +82,7 @@ class InstallationPage(Page):
         self.check_disk_free_space()
         min_space_mb = self.info.distro.min_disk_space_mb + self.info.distro.max_iso_size/(1024**2)+ 100
         self.drives_gb = []
+        self.target_drive_list.clear()
         for drive in self.info.drives:
             if drive.type not in ['removable', 'hd']:
                 continue
@@ -116,9 +113,8 @@ class InstallationPage(Page):
 
     def populate_size_list(self):
         target_drive = self.get_drive()
-        min_space_mb = self.info.distro.min_disk_space_mb
-        #this will be 1-2GB less than the disk free space, to have space for the ISO
         self.size_list_gb = []
+        self.size_list.clear()
         for i in range(1, 31):
             #~ log.debug("%s < %s and %s > %s" % (i * 1000 + self.info.distro.max_iso_size/1024**2 + 100 , target_drive.free_space_mb, i * 1000 , self.info.distro.min_disk_space_mb))
             if self.info.skip_size_check \
@@ -212,8 +208,11 @@ class InstallationPage(Page):
         self.populate_language_list()
         self.language_list.on_change = self.on_language_change
 
-        username = self.info.host_username.strip().lower()
-        username = re.sub('[^-a-z0-9_]', '', username)
+        if self.info.username:
+            username = self.info.username
+        else:
+            username = self.info.host_username
+        username = re.sub('[^-a-z0-9_]', '', username.strip().lower())
         picture, label, combo = self.add_controls_block(
             self.main, h*4 + w, h*4,
             "user.bmp", _("Username:"), None)
@@ -221,12 +220,15 @@ class InstallationPage(Page):
             self.main,
             h*4 + w + 42, h*4+20, 150, 20,
             username, False)
+
         picture, label, combo = self.add_controls_block(
             self.main, h*4 + w, h*7,
             "lock.bmp", _("Password:"), None)
         label.move(h*4 + w + 42, h*7 - 24)
         password = ""
-        if self.info.test:
+        if self.info.password:
+            password = self.info.password
+        elif self.info.test:
             password = "test"
         self.password1 = ui.PasswordEdit(
             self.main,
@@ -241,6 +243,9 @@ class InstallationPage(Page):
             40, self.main.height - 20, self.main.width - 80, 12,
             "")
         self.error_label.set_text_color(255, 0, 0)
+
+        if self.info.non_interactive:
+            self.on_install()
 
     def get_drive(self):
         target_drive = self.target_drive_list.get_text()[:2].lower()
@@ -310,7 +315,7 @@ class InstallationPage(Page):
         password2 = self.password2.get_text()
         error_message = ""
         if not username:
-            error_message = _("Please enter a valid username")
+            error_message = _("Please enter a valid username.")
         elif username != username.lower():
             error_message = _("Please use all lower cases in the username.")
         elif " " in username:
@@ -329,6 +334,9 @@ class InstallationPage(Page):
             error_message = _("Passwords do not match.")
         self.error_label.set_text(error_message)
         if error_message:
+            if self.info.non_interactive:
+                log.error("ERROR: %s Exiting." % error_message)
+                self.frontend.quit()
             return
         log.debug(
             "target_drive=%s, installation_size=%sMB, distro_name=%s, language=%s, locale=%s, username=%s" \

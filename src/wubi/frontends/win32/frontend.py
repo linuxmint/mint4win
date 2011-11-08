@@ -18,7 +18,6 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 
-import os
 from winui import ui
 from installation_finish_page import InstallationFinishPage
 from installation_page import InstallationPage
@@ -113,7 +112,10 @@ class WindowsFrontend(ui.Frontend):
     def show_installation_settings(self):
         self.accessibility_page = AccessibilityPage(self.main_window)
         self.installation_page = InstallationPage(self.main_window)
-        self.show_page(self.installation_page)
+        # In non-interactive mode realize the page because there's some
+        # processing done there but don't show it
+        if not self.application.info.non_interactive:
+            self.show_page(self.installation_page)
 
     def show_uninstallation_settings(self):
         self.uninstallation_page = UninstallationPage(self.main_window)

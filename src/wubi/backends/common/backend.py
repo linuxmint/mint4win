@@ -37,9 +37,10 @@ from metalink import parse_metalink
 from tasklist import ThreadedTaskList, Task
 from distro import Distro
 from mappings import lang_country2linux_locale
-from utils import join_path, run_nonblocking_command, md5_password, copy_file, read_file, write_file, get_file_md5, reversed, find_line_in_file, unix_path, rm_tree
+from utils import join_path, run_nonblocking_command, md5_password, copy_file, read_file, write_file, get_file_md5, reversed, find_line_in_file, unix_path, rm_tree, spawn_command
 from signature import verify_gpg_signature
-from os.path import abspath, dirname
+from wubi import errors
+from os.path import abspath
 
 log = logging.getLogger("CommonBackend")
 
@@ -72,7 +73,33 @@ class Backend(object):
         gettext.install(self.info.application_name, localedir=self.info.translations_dir, unicode=True)
 
     def get_installation_tasklist(self):
-        tasks = [
+        self.cache_cd_path()
+        dimage = self.info.distro.diskimage
+        if dimage and not self.cd_path and not self.iso_path:
+            tasks = [
+            Task(self.select_target_dir,
+                 description=_("Selecting the target directory")),
+            Task(self.create_dir_structure,
+                 description=_("Creating the directories")),
+            Task(self.create_uninstaller,
+                 description=_("Creating the uninstaller")),
+            Task(self.create_preseed_diskimage,
+                 description=_("Creating a preseed file")),
+            Task(self.get_diskimage,
+                 description=_("Retrieving installation files")),
+            Task(self.extract_diskimage, description=_("Extracting")),
+            Task(self.choose_disk_sizes, description=_("Choosing disk sizes")),
+            Task(self.expand_diskimage,
+                 description=_("Expanding")),
+            Task(self.create_swap_diskimage,
+                 description=_("Creating virtual memory")),
+            Task(self.modify_bootloader,
+                 description=_("Adding a new bootloader entry")),
+            Task(self.diskimage_bootloader,
+                 description=_("Installing the bootloader")),
+            ]
+        else:
+            tasks = [
             Task(self.select_target_dir, description=_("Selecting the target directory")),
             Task(self.create_dir_structure, description=_("Creating the installation directories")),
             Task(self.uncompress_target_dir, description=_("Uncompressing files")),
@@ -119,7 +146,6 @@ class Backend(object):
 
     def get_uninstallation_tasklist(self):
         tasks = [
-            Task(self.backup_iso, _("Backup ISO")),
             Task(self.undo_bootloader, _("Remove bootloader entry")),
             Task(self.remove_target_dir, _("Remove target dir")),
             Task(self.remove_registry_key, _("Remove registry key")),]
@@ -208,7 +234,6 @@ class Backend(object):
 
     def create_dir_structure(self, associated_task=None):
         self.info.disks_dir = join_path(self.info.target_dir, "disks")
-        self.info.backup_dir = self.info.target_dir + "-backup"
         self.info.install_dir = join_path(self.info.target_dir, "install")
         self.info.install_boot_dir = join_path(self.info.install_dir, "boot")
         self.info.disks_boot_dir = join_path(self.info.disks_dir, "boot")
@@ -234,8 +259,8 @@ class Backend(object):
         time.sleep(1)
 
     def check_metalink(self, metalink, base_url, associated_task=None):
-        #if self.info.skip_md5_check:
-        return True
+        if self.info.skip_md5_check:
+            return True
         url = base_url +"/" + self.info.distro.metalink_md5sums
         metalink_md5sums = downloader.download(url, self.info.install_dir, web_proxy=self.info.web_proxy)
         url = base_url +"/" + self.info.distro.metalink_md5sums_signature
@@ -258,8 +283,8 @@ class Backend(object):
         if not self.info.distro.is_valid_cd(cd_path, check_arch=False):
             return False
         self.set_distro_from_arch(cd_path)
-        #if self.info.skip_md5_check:
-        return True
+        if self.info.skip_md5_check:
+            return True
         md5sums_file = join_path(cd_path, self.info.distro.md5sums)
         for rel_path in self.info.distro.get_required_files():
             if rel_path == self.info.distro.md5sums:
@@ -275,8 +300,8 @@ class Backend(object):
         if not self.info.distro.is_valid_iso(iso_path, check_arch=False):
             return False
         self.set_distro_from_arch(iso_path)
-        #if self.info.skip_md5_check:
-        return True
+        if self.info.skip_md5_check:
+            return True
         md5sum = None
         if not self.info.distro.metalink:
             get_metalink = associated_task.add_subtask(
@@ -319,6 +344,55 @@ class Backend(object):
         urls.sort(cmp)
         return urls
 
+    def cache_cd_path(self):
+        self.cd_path = None
+        if self.info.cd_distro \
+        and self.info.distro == self.info.cd_distro \
+        and self.info.cd_path \
+        and os.path.isdir(self.info.cd_path):
+            self.cd_path = self.info.cd_path
+        else:
+            self.cd_path = self.find_cd()
+
+        if not self.cd_path:
+            self.iso_path = None
+            if self.info.iso_distro \
+            and self.info.distro == self.info.iso_distro \
+            and os.path.isfile(self.info.iso_path):
+                self.iso_path = self.info.iso_path
+            else:
+                self.iso_path = self.find_iso()
+
+    def create_diskimage_dirs(self, associated_task=None):
+        self.info.disks_dir = join_path(self.info.target_dir, "disks")
+        self.info.disks_boot_dir = join_path(self.info.disks_dir, "boot")
+        dirs = [
+            self.info.target_dir,
+            self.info.disks_dir,
+            self.info.disks_boot_dir,
+            join_path(self.info.disks_boot_dir, "grub"),
+            ]
+        for d in dirs:
+            if not os.path.isdir(d):
+                log.debug("Creating dir %s" % d)
+                os.mkdir(d)
+
+    def download_diskimage(self, diskimage, associated_task=None):
+        proxy = self.info.web_proxy
+        save_as = join_path(self.info.disks_dir, diskimage.split('/')[-1])
+        if os.path.isfile(save_as):
+            os.unlink(save_as)
+        try:
+            download = associated_task.add_subtask(
+                downloader.download,
+                is_required = False)
+            self.dimage_path = download(diskimage, save_as,
+                    web_proxy=proxy)
+            return True
+        except Exception:
+            log.exception('Cannot download disk image file %s:' % diskimage)
+            return False
+
     def download_iso(self, associated_task=None):
         log.debug("Could not find any ISO or CD, downloading one now")
         self.info.cd_path = None
@@ -331,20 +405,25 @@ class Backend(object):
         file = self.info.distro.metalink.files[0]
         save_as = join_path(self.info.install_dir, file.name)
         urls = self.select_mirrors(file.urls)
-        iso =None
         for url in urls[:5]:
             if url.type == 'bittorrent':
                 if self.info.no_bittorrent:
                     continue
-                if os.path.isfile(save_as):
-                    os.unlink(save_as)
+                if os.path.exists(save_as):
+                    try:
+                        os.unlink(save_as)
+                    except OSError:
+                        logging.exception('Could not remove: %s' % save_as)
                 btdownload = associated_task.add_subtask(
                     btdownloader.download,
                     is_required = False)
                 iso_path = btdownload(url.url, save_as)
             else:
-                if os.path.isfile(save_as):
-                    os.unlink(save_as)
+                if os.path.exists(save_as):
+                    try:
+                        os.unlink(save_as)
+                    except OSError:
+                        logging.exception('Could not remove: %s' % save_as)
                 download = associated_task.add_subtask(
                     downloader.download,
                     is_required = True)
@@ -378,6 +457,23 @@ class Backend(object):
             log.exception("Cannot authenticate the metalink file, it might be corrupt")
         self.info.distro.metalink = parse_metalink(metalink)
 
+    def get_prespecified_diskimage(self, associated_task):
+        '''
+        Use a local disk image specificed on the command line
+        '''
+        if self.info.dimage_path \
+        and os.path.exists(self.info.dimage_path):
+            #TBD shall we do md5 check? Doesn't work well with daylies
+            #TBD if a specified disk image cannot be used notify the user
+            self.dimage_path = self.info.dimage_path
+            log.debug("Trying to use pre-specified disk image %s" % self.info.dimage_path)
+            is_valid_dimage = associated_task.add_subtask(
+                self.info.distro.is_valid_dimage,
+                description = _("Validating %s") % self.info.dimage_path)
+            if is_valid_dimage(self.info.dimage_path, self.info.check_arch):
+                self.info.cd_path = None
+                return True
+
     def get_prespecified_iso(self, associated_task):
         if self.info.iso_path \
         and os.path.exists(self.info.iso_path):
@@ -408,17 +504,27 @@ class Backend(object):
         distro = self.info.distros_dict.get((name.lower(), arch))
         self.info.distro = distro
 
+    def copy_diskimage(self, dimage_path, associated_task):
+        if not dimage_path:
+            return
+        dimage_name = self.info.distro.diskimage.split('/')[-1]
+        dest = os.path.join(self.info.disks_dir, dimage_name)
+        copy_dimage = associated_task.add_subtask(
+            copy_file,
+            description = _("Copying installation files"))
+        log.debug("Copying %s > %s" % (dimage_path, dest))
+        copy_dimage(dimage_path, dest)
+        return True
+
     def copy_iso(self, iso_path, associated_task):
         if not iso_path:
             return
-        iso_name = os.path.basename(iso_path)
         dest = join_path(self.info.install_dir, "installation.iso")
         check_iso = associated_task.add_subtask(
             self.check_iso,
             description = _("Checking installation files"))
         if check_iso(iso_path):
-            if os.path.dirname(iso_path) == dest \
-            or os.path.dirname(iso_path) == self.info.backup_dir:
+            if os.path.dirname(iso_path) == dest:
                 move_iso = associated_task.add_subtask(
                     shutil.move,
                     description = _("Copying installation files"))
@@ -435,33 +541,19 @@ class Backend(object):
             return True
 
     def use_cd(self, associated_task):
-        cd_path = None
-        if self.info.cd_distro \
-        and self.info.distro == self.info.cd_distro \
-        and self.info.cd_path \
-        and os.path.isdir(self.info.cd_path):
-            cd_path = self.info.cd_path
-        else:
-            cd_path = self.find_cd()
-        #~ if cd_path:
-            #~ log.debug("Trying to use CD %s" % cd_path)
-            #~ check_cd = associated_task.add_subtask(
-                #~ self.check_cd,
-                #~ description = "Checking %s" % cd_path, )
-            #~ if not check_cd(cd_path):
-        if cd_path:
+        if self.cd_path:
             extract_iso = associated_task.add_subtask(
                 copy_file,
-                description = _("Extracting files from %s") % cd_path)
+                description = _("Extracting files from %s") % self.cd_path)
             self.info.iso_path = join_path(self.info.install_dir, "installation.iso")
             try:
-                extract_iso(cd_path, self.info.iso_path)
+                extract_iso(self.cd_path, self.info.iso_path)
             except Exception, err:
                 log.error(err)
                 self.info.cd_path = None
                 self.info.iso_path = None
                 return False
-            self.info.cd_path = cd_path
+            self.info.cd_path = self.cd_path
             #This will often fail before release as the CD might not match the latest daily ISO
             check_iso = associated_task.add_subtask(
                 self.check_iso,
@@ -477,16 +569,25 @@ class Backend(object):
             return True
 
     def use_iso(self, associated_task):
-        iso_path = None
-        if self.info.iso_distro \
-        and self.info.distro == self.info.iso_distro \
-        and os.path.isfile(self.info.iso_path):
-            iso_path = self.info.iso_path
+        if self.iso_path:
+            log.debug("Trying to use ISO %s" % self.iso_path)
+            return self.copy_iso(self.iso_path, associated_task)
+
+    def get_diskimage(self, associated_task=None):
+        '''
+        Get a diskimage either locally or from the mirror
+        '''
+        if self.get_prespecified_diskimage(associated_task):
+            return associated_task.finish()
+        dimage = self.info.distro.diskimage
+        if self.download_diskimage(dimage, associated_task):
+            return associated_task.finish()
         else:
-            iso_path = self.find_iso()
-        if iso_path:
-            log.debug("Trying to use ISO %s" % iso_path)
-            return self.copy_iso(iso_path, associated_task)
+            dimage2 = self.info.distro.diskimage2
+            if self.download_diskimage(dimage2, associated_task):
+                return associated_task.finish()
+
+        raise Exception("Could not retrieve the required disk image files")
 
     def get_iso(self, associated_task=None):
         if self.get_prespecified_iso(associated_task) \
@@ -537,6 +638,28 @@ class Backend(object):
         md5  = get_file_md5(file_path, associated_task)
         log.debug("  %s md5 = %s %s %s" % (file_path, md5, md5 == reference_md5 and "==" or "!=", reference_md5))
         return md5 == reference_md5
+
+    def create_preseed_diskimage(self):
+        source = join_path(self.info.data_dir, 'preseed.disk')
+        template = read_file(source)
+        password = md5_password(self.info.password)
+        dic = dict(
+            timezone = self.info.timezone,
+            password = password,
+            keyboard_variant = self.info.keyboard_variant,
+            keyboard_layout = self.info.keyboard_layout,
+            locale = self.info.locale,
+            user_full_name = self.info.user_full_name,
+            username = self.info.username)
+        for k,v in dic.items():
+            k = "$(%s)" % k
+            template = template.replace(k, v)
+        preseed_file = join_path(self.info.install_dir, "preseed.cfg")
+        write_file(preseed_file, template)
+
+        source = join_path(self.info.data_dir, "wubildr-disk.cfg")
+        target = join_path(self.info.install_dir, "wubildr-disk.cfg")
+        copy_file(source, target)
 
     def create_preseed_cdboot(self):
         source = join_path(self.info.data_dir, 'preseed.cdboot')
@@ -603,10 +726,7 @@ class Backend(object):
             #~ isopath = unix_path(self.info.cd_path)
         elif self.info.iso_path:
             isopath = unix_path(self.info.iso_path)
-        if self.info.target_drive.is_fat():
-            rootflags = "rootflags=sync"
-        else:
-            rootflags = "rootflags=syncio"
+        rootflags = "rootflags=sync"
         dic = dict(
             custom_installation_dir = unix_path(self.info.custominstall),
             iso_path = isopath,
@@ -617,7 +737,7 @@ class Backend(object):
             kernel = unix_path(self.info.kernel),
             initrd = unix_path(self.info.initrd),
             rootflags = rootflags,
-            title1 = "Completing the Linux Mint installation.",
+            title1 = "Completing the Ubuntu installation.",
             title2 = "For more installation boot options, press `ESC' now...",
             normal_mode_title = "Normal mode",
             safe_graphic_mode_title = "Safe graphic mode",
@@ -640,7 +760,15 @@ class Backend(object):
             log.debug("Cannot find %s" % self.info.previous_target_dir)
             return
         log.debug("Deleting %s" % self.info.previous_target_dir)
-        rm_tree(self.info.previous_target_dir)
+        try:
+            rm_tree(self.info.previous_target_dir)
+        except OSError, e:
+            if e.errno == 22:
+                log.exception('Unable to remove the target directory.')
+                # Invalid argument - likely a corrupt file.
+                cmd = spawn_command(['chkdsk', '/F'])
+                cmd.communicate(input='Y%s' % os.linesep)
+                raise errors.WubiCorruptionError
 
     def find_iso(self, associated_task=None):
         log.debug("Searching for local ISO")
@@ -717,6 +845,10 @@ class Backend(object):
             return
         previous_uninstaller = self.info.previous_uninstaller_path.lower()
         uninstaller = self.info.previous_uninstaller_path
+        command = [uninstaller, "--uninstall"]
+        # Propagate noninteractive mode to the uninstaller
+        if self.info.non_interactive:
+            command.append("--noninteractive")
         if 0 and previous_uninstaller.lower() == self.info.original_exe.lower():
             # This block is disabled as the functionality is achived via pylauncher
             if self.info.original_exe.lower().startswith(self.info.previous_target_dir.lower()):
@@ -726,13 +858,13 @@ class Backend(object):
                 uninstaller = uninstaller.name
                 copy_file(self.info.previous_uninstaller_path, uninstaller)
             log.info("Launching asynchronously previous uninstaller %s" % uninstaller)
-            run_nonblocking_command([uninstaller, "--uninstall"], show_window=True)
+            run_nonblocking_command(command, show_window=True)
             return True
         elif get_file_md5(self.info.original_exe) == get_file_md5(self.info.previous_uninstaller_path):
             log.info("This is the uninstaller running")
         else:
             log.info("Launching previous uninestaller %s" % uninstaller)
-            subprocess.call([uninstaller, "--uninstall"])
+            subprocess.call(command)
             # Note: the uninstaller is now non-blocking so we can just as well quit this running version
             # TBD: make this call synchronous by waiting for the children process of the uninstaller
             self.application.quit()
