@@ -1,9 +1,9 @@
-wubi (12.04) UNRELEASED; urgency=low
+wubi (12) UNRELEASED; urgency=low
 
   * Remove partially downloaded files that Windows does not consider
     files when the bit torrent tracker falls over (LP: #873268).
 
- -- Evan Dandrea <ev@ubuntu.com>  Thu, 13 Oct 2011 12:48:22 +0100
+ -- Evan Dandrea <ev@linuxmint.com>  Thu, 13 Oct 2011 12:48:22 +0100
 
 wubi (11.10) oneiric; urgency=low
 
@@ -40,7 +40,7 @@ wubi (11.10) oneiric; urgency=low
   * Drop vt.handoff for 11.10.  We'll fix this by including the correct
     GRUB modules in 12.04.
 
- -- Evan Dandrea <ev@ubuntu.com>  Thu, 13 Oct 2011 10:28:10 +0100
+ -- Evan Dandrea <ev@linuxmint.com>  Thu, 13 Oct 2011 10:28:10 +0100
 
 wubi (11.04) UNRELEASED; urgency=low
 
@@ -56,8 +56,8 @@ wubi (11.04) UNRELEASED; urgency=low
     wubildr image, to support our default configuration file.
 
   [ Jonathan Riddell ]
-  * Remove Kubuntu Netbook option, no longer a separate CD
-  * Update Kubuntu artwork
+  * Remove Klinuxmint Netbook option, no longer a separate CD
+  * Update Klinuxmint artwork
 
   [ Evan Dandrea ]
   * Update translations from Launchpad.
@@ -66,7 +66,7 @@ wubi (11.04) UNRELEASED; urgency=low
     (LP: #771517).
   * Only ever schedule the wubi binary for removal later (LP: #771517).
 
- -- Colin Watson <cjwatson@ubuntu.com>  Wed, 30 Jun 2010 11:44:43 +0100
+ -- Colin Watson <cjwatson@linuxmint.com>  Wed, 30 Jun 2010 11:44:43 +0100
 
 wubi (10.10) UNRELEASED; urgency=low
 
@@ -84,14 +84,14 @@ wubi (10.10) UNRELEASED; urgency=low
   * Add the font, gfxterm, and gettext modules to the wubildr image, to
     support our default configuration file (LP: #653134).
 
- -- Colin Watson <cjwatson@ubuntu.com>  Wed, 30 Jun 2010 11:44:43 +0100
+ -- Colin Watson <cjwatson@linuxmint.com>  Wed, 30 Jun 2010 11:44:43 +0100
 
 wubi (10.04) UNRELEASED; urgency=low
 
   [ Agostino Russo ]
   * Fixed country and keymap detection (LP: #428575)
   * Added Chinese to language selector (LP: #468457)
-  * The amd64 URL for Kubuntu was pointing to the i386 ISO (LP: #465936)
+  * The amd64 URL for Klinuxmint was pointing to the i386 ISO (LP: #465936)
   * Boot.ini is not restored if drive letter is in upper case (LP:
     #400936)
   * Added traditional chinese to language list (LP: #468457)
@@ -107,8 +107,8 @@ wubi (10.04) UNRELEASED; urgency=low
   [ Colin Watson ]
   * Handle separate /boot in embedded grub.cfg (idea from Mark Abene in LP
     #477169).
-  * Fall back to searching for /ubuntu/install/boot/grub/grub.cfg even if
-    /ubuntu/disks/root.disk exists but is unusable (LP: #541607).
+  * Fall back to searching for /linuxmint/install/boot/grub/grub.cfg even if
+    /linuxmint/disks/root.disk exists but is unusable (LP: #541607).
   * Skip " LTS" in .disk/info when comparing versions (see LP #558488).
   * Build-depend on gcc-multilib on amd64, so that 'gcc -m32' works.
 
@@ -160,13 +160,13 @@ wubi (9.10) karmic; urgency=low
     compressed initramfses
 
   [ Evan Dandrea ]
-  * Add support for Kubuntu Netbook Edition (LP: #402850).
+  * Add support for Klinuxmint Netbook Edition (LP: #402850).
   * Fix typos for netbook images in data/isolist.ini.
   * Support dashes in project names.  Thanks Steve Kowalik!
   * Factor in free space on the source device when calculating whether
     it's too big to use Wubi with.  This fixes using Wubi on
     sufficiently large USB disks.
-  * Kubuntu Netbook Edition is now Kubuntu Netbook.
+  * Klinuxmint Netbook Edition is now Klinuxmint Netbook.
   * Use i386 if an amd64 version of the selected distribution does not
     exist.
   * Use the correct syntax for grub2 (elif does not exist).  Thanks to
@@ -364,8 +364,8 @@ wubi (9.04) jaunty; urgency=low
   * Ensure that the local ISO path is stored upon successful download
   * Point isolist.ini to beta release (only for Ubuntu ISO)
   * Had the wrong URL for beta in isolist.ini (thanks Colin Watson!)
-  * Added beta URL for Kubuntu
-  * Fixed Kubuntu package name and URLs
+  * Added beta URL for Klinuxmint
+  * Fixed Klinuxmint package name and URLs
   * Disabled ISO backup because download resume is not fully supported
     at the moment
   * Isolist.ini now points to the final release URLs
@@ -418,7 +418,7 @@ wubi (9.04) jaunty; urgency=low
   * The compact command is not supported on a vfat filesystems
   * Fixed translatable strings, thanks Adi Roiban (LP: #376457)
   * Added update-po to makefile, thanks Adi Roiban (LP: #376463)
-  * Kubuntu metalink URL does not start with 'http' (LP: #383752)
+  * Klinuxmint metalink URL does not start with 'http' (LP: #383752)
   * Fixed i18n errors in progress_page.py (thanks Adi Roiban)
 
   [ Hampus Wessman ]
