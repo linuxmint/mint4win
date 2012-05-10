@@ -75,7 +75,8 @@ class Backend(object):
     def get_installation_tasklist(self):
         self.cache_cd_path()
         dimage = self.info.distro.diskimage
-        if dimage and not self.cd_path and not self.iso_path:
+        # don't use diskimage for a FAT32 target directory
+        if dimage and not self.cd_path and not self.iso_path and not self.info.target_drive.is_fat():
             tasks = [
             Task(self.select_target_dir,
                  description=_("Selecting the target directory")),
@@ -120,6 +121,7 @@ class Backend(object):
         return tasklist
 
     def get_cdboot_tasklist(self):
+        self.cache_cd_path()
         tasks = [
             Task(self.select_target_dir, description=_("Selecting the target directory")),
             Task(self.create_dir_structure, description=_("Creating the installation directories")),
@@ -259,8 +261,8 @@ class Backend(object):
         time.sleep(1)
 
     def check_metalink(self, metalink, base_url, associated_task=None):
-        #if self.info.skip_md5_check:
-        return True
+        if self.info.skip_md5_check:
+            return True
         url = base_url +"/" + self.info.distro.metalink_md5sums
         metalink_md5sums = downloader.download(url, self.info.install_dir, web_proxy=self.info.web_proxy)
         url = base_url +"/" + self.info.distro.metalink_md5sums_signature
@@ -283,8 +285,8 @@ class Backend(object):
         if not self.info.distro.is_valid_cd(cd_path, check_arch=False):
             return False
         self.set_distro_from_arch(cd_path)
-        #if self.info.skip_md5_check:
-        return True
+        if self.info.skip_md5_check:
+            return True
         md5sums_file = join_path(cd_path, self.info.distro.md5sums)
         for rel_path in self.info.distro.get_required_files():
             if rel_path == self.info.distro.md5sums:
@@ -300,8 +302,8 @@ class Backend(object):
         if not self.info.distro.is_valid_iso(iso_path, check_arch=False):
             return False
         self.set_distro_from_arch(iso_path)
-        #if self.info.skip_md5_check:
-        return True
+        if self.info.skip_md5_check:
+            return True
         md5sum = None
         if not self.info.distro.metalink:
             get_metalink = associated_task.add_subtask(
@@ -345,6 +347,7 @@ class Backend(object):
         return urls
 
     def cache_cd_path(self):
+        self.iso_path = None
         self.cd_path = None
         if self.info.cd_distro \
         and self.info.distro == self.info.cd_distro \
@@ -355,7 +358,6 @@ class Backend(object):
             self.cd_path = self.find_cd()
 
         if not self.cd_path:
-            self.iso_path = None
             if self.info.iso_distro \
             and self.info.distro == self.info.iso_distro \
             and os.path.isfile(self.info.iso_path):
@@ -388,7 +390,7 @@ class Backend(object):
                 is_required = False)
             self.dimage_path = download(diskimage, save_as,
                     web_proxy=proxy)
-            return True
+            return self.dimage_path is not None
         except Exception:
             log.exception('Cannot download disk image file %s:' % diskimage)
             return False
@@ -737,7 +739,7 @@ class Backend(object):
             kernel = unix_path(self.info.kernel),
             initrd = unix_path(self.info.initrd),
             rootflags = rootflags,
-            title1 = "Completing the Linux Mint installation.",
+            title1 = "Completing the Ubuntu installation.",
             title2 = "For more installation boot options, press `ESC' now...",
             normal_mode_title = "Normal mode",
             safe_graphic_mode_title = "Safe graphic mode",
@@ -808,7 +810,12 @@ class Backend(object):
             path = abspath(path)
             for distro in self.info.distros:
                 if distro.is_valid_cd(path, self.info.check_arch):
-                    return path, distro
+                    if self.info.original_exe[:2] != path[:2]:
+                        # We don't want to use the CD if it's inserted when the
+                        # user is running Wubi from disk.
+                        return None, None
+                    else:
+                        return path, distro
         return None, None
 
     def find_cd(self):

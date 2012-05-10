@@ -8,8 +8,8 @@
 d-i netcfg/choose_interface select auto
 d-i netcfg/dhcp_failed note
 d-i netcfg/dhcp_options select Do not configure the network at this time
-d-i netcfg/get_hostname string linuxmint
-d-i netcfg/get_domain string linuxmint-domain
+d-i netcfg/get_hostname string ubuntu
+d-i netcfg/get_domain string ubuntu-domain
 d-i netcfg/wireless_essid string essid
 d-i netcfg/wireless_wep string
 
@@ -29,7 +29,7 @@ d-i apt-setup/security-updates-failed note
 d-i mirror/http/proxy string
 
 ## SUITE
-d-i mirror/suite string oneiric
+d-i mirror/suite string precise
 
 ## PARTITIONING
 $(partitioning)
