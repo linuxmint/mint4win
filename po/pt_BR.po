@@ -1,5 +1,5 @@
 # #-#-#-#-#  pt_BR.po (Wubi 187)  #-#-#-#-#
-# Translation template for Wubi (Windows Ubuntu Installer)
+# Translation template for Wubi (Windows Linux Mint Installer)
 # This file is distributed under the same license as the Wubi package.
 # Web site: https://launchpad.net/wubi/
 #
@@ -15,7 +15,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: agostino.russo@gmail.com\n"
 "POT-Creation-Date: 2011-06-24 10:56+0100\n"
 "PO-Revision-Date: 2010-11-07 19:30+0000\n"
-"Last-Translator: André Gondim <andregondim@ubuntu.com>\n"
+"Last-Translator: André Gondim <andregondim@linuxmint.com>\n"
 "Language-Team: Brazilian Portuguese <pt_BR@li.org>\n"
 "Language: pt_BR\n"
 "MIME-Version: 1.0\n"
