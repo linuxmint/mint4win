@@ -31,7 +31,7 @@ class BackendTests(unittest.TestCase):
             ('HKEY_LOCAL_MACHINE', 'registry-key', 'URLInfoAbout',
              'http://www.linuxmint.com'),
             ('HKEY_LOCAL_MACHINE', 'registry-key', 'HelpLink',
-             'http://www.linuxmint.com/support')]
+             'http://www.linuxmint.com')]
         # Python2.3 doesn't have addCleanup (2.7), so we need to manage
         # cleaning up after this mock ourselves.
         self.save_registry = registry.set_value
