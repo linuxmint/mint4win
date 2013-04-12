@@ -1,14 +1,14 @@
 == Introduction ==
 
 Wubi is the Windows Linux Mint Installer. Wubi installs Linux Mint inside a file
-within a windows partition, and thus it does not require CD burning or
+within a Windows partition, and thus it does not require CD burning or
 dedicated partitions, yet the installation is a dual boot setup identical
 to a normal installation.
 
 For more information see:
 
 http://wubi-installer.org
-http://wiki.linuxmint.com/WubiGuide
+https://wiki.ubuntu.com/WubiGuide
 
 == Compiling ==
 
